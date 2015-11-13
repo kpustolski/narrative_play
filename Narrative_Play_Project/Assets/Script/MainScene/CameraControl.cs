@@ -20,17 +20,16 @@ public class CameraControl : MonoBehaviour {
 
 	void FixedUpdate()
 	{
-		// Zoom In & Out with 
-		// with ....
+		// Zoom In & Out with the wheel
 		float fov = Camera.main.fieldOfView;
 		fov += -Input.GetAxis("Mouse ScrollWheel") * sensitivity;
 		fov = Mathf.Clamp(fov, minFov, maxFov);
-		Camera.main.orthographicSize = fov;
+		Camera.main.fieldOfView = fov;
 
 		// Rotate the camera 
 		if (Input.GetMouseButton(1))
 		{
-			float mousX = Input.GetAxis("Mouse X");//得到鼠标移动距离
+			float mousX = Input.GetAxis("Mouse X");
 			transform.RotateAround(target.transform.position, new Vector3(0, mousX, 0), rotate_Speed);
 		}
 
