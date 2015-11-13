@@ -20,7 +20,8 @@ public class CameraControl : MonoBehaviour {
 
 	void FixedUpdate()
 	{
-		// Zoom In & Out with t
+		// Zoom In & Out with 
+		// with ....
 		float fov = Camera.main.fieldOfView;
 		fov += -Input.GetAxis("Mouse ScrollWheel") * sensitivity;
 		fov = Mathf.Clamp(fov, minFov, maxFov);
