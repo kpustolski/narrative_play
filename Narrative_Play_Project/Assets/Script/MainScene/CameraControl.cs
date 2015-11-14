@@ -33,9 +33,7 @@ public class CameraControl : MonoBehaviour {
 			transform.RotateAround(target.transform.position, new Vector3(0, mousX, 0), rotate_Speed);
 		}
 
-	
 	}
+	
 
-	
-	
 }
