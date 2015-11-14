@@ -61,9 +61,9 @@ public class SelectionScroll : MonoBehaviour
 
         Vector3 newPosition = new Vector3(cubePositions[cubeNum].transform.position.x, selectCam.transform.position.y, selectCam.transform.position.z);
         // change camera position with tweening
-        // iTween.MoveTo(selectCam.gameObject, newPosition, 2);
+        iTween.MoveTo(selectCam.gameObject, newPosition, 2);
         //basic changing positions
-        selectCam.transform.position = new Vector3(cubePositions[cubeNum].transform.position.x, selectCam.transform.position.y, selectCam.transform.position.z);
+       // selectCam.transform.position = new Vector3(cubePositions[cubeNum].transform.position.x, selectCam.transform.position.y, selectCam.transform.position.z);
     }
     // once the left button is clicked, decrease array count and 
     // change camera's x position to that cube in the array
@@ -81,9 +81,9 @@ public class SelectionScroll : MonoBehaviour
         }
         Vector3 newPosition = new Vector3(cubePositions[cubeNum].transform.position.x, selectCam.transform.position.y, selectCam.transform.position.z);
         // change camera position with tweening
-        // iTween.MoveTo(selectCam.gameObject, newPosition, 2);
+        iTween.MoveTo(selectCam.gameObject, newPosition, 2);
         // basic changing positions
-        selectCam.transform.position = new Vector3(cubePositions[cubeNum].transform.position.x, selectCam.transform.position.y, selectCam.transform.position.z);
+        //selectCam.transform.position = new Vector3(cubePositions[cubeNum].transform.position.x, selectCam.transform.position.y, selectCam.transform.position.z);
 
     }
 }
