@@ -166,10 +166,7 @@ public class GameBoard : MonoBehaviour {
 
 	}
 
-
-
-
-
+	
 	// search the cubes on the board for Flipping 
 	public void SearchForReverse(StoryCube _cube){
 		Debug.Log("Search for flip");
@@ -374,7 +371,7 @@ public class GameBoard : MonoBehaviour {
 		}
 
 		// searching along -x, +y
-		for (int i = _posX - 1; i >= 0 && offset < SizeH; i--) {
+		for (int i = _posX - 1; i >= 0 && offset - i < SizeH; i--) {
 			if(cells[i][offset-i] == null)
 			{
 				Debug.Log("-x +y is null");
