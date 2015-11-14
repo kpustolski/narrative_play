@@ -48,6 +48,7 @@
      <Compile Include="Assets\Script\MainScene\CameraControl.cs" />
      <Compile Include="Assets\Script\MainScene\Grid.cs" />
      <Compile Include="Assets\Script\SelectionScroll.cs" />
+     <Compile Include="Assets\Script\TurnCube.cs" />
      <None Include="Assets\Standard Assets\Prototyping\Shaders\WorldCoordDiffuse.shader" />
      <None Include="Assets\Standard Assets\Fonts\OpenSans\License!.txt" />
      <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
