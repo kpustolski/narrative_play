@@ -47,7 +47,6 @@
   <ItemGroup>
      <Compile Include="Assets\Script\MainScene\CameraControl.cs" />
      <Compile Include="Assets\Script\MainScene\Grid.cs" />
-     <Compile Include="Assets\Script\SelectionCamera.cs" />
      <Compile Include="Assets\Script\SelectionScroll.cs" />
      <None Include="Assets\Standard Assets\Prototyping\Shaders\WorldCoordDiffuse.shader" />
      <None Include="Assets\Standard Assets\Fonts\OpenSans\License!.txt" />
