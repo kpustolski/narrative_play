@@ -4,34 +4,71 @@ using UnityEngine.UI;
 
 public class SelectionCamera : MonoBehaviour {
 	// Variables
+	//cube array
 	public GameObject[] cubePositions;
 
 	// button variables for moving camera position
 	public Button left;
 	public Button right;
-	public bool isClicked;
 
-	public int cubeNum;
+	//camera
+	public Camera selectCam;
 
+	//private variables
+	private int cubeNum;
 	private float initialCamPosX;
+	private float finalCamPosX;
+
 	// Use this for initialization
 	void Start () {
-		cubePositions= new GameObject[0];
+		// find cubes with the following label
+		cubePositions = GameObject.FindGameObjectsWithTag ("SelectionCubes");;
+//		print (cubePositions.Length);
+		// init. variables
+		selectCam = selectCam.GetComponent<Camera> ();
+		left = left.GetComponent<Button>();
+		right = right.GetComponent<Button>();
 		cubeNum = 0;
-		initialCamPosX = cubePositions [cubeNum].transform.position.x;
 
-		transform.position = new Vector3 (initialCamPosX, transform.position.y, transform.position.z);
+		//init position of camera. The camera is set to face the first cube in the array.
+		initialCamPosX = cubePositions[cubeNum].transform.position.x;
+		selectCam.transform.position = new Vector3 (initialCamPosX, selectCam.transform.position.y, selectCam.transform.position.z);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
+	
 	}
 
-	void OnGUI() {
-		if( left.onClick) {
-			transform.position= new Vector3(cubePositions[]);
+	// once the right button is clicked, increase array count and 
+	// change camera's x position to that cube in the array
+	public void ChangeCameraPosRight()
+	{
+		// The following if statement makes sure the cubeNum doesn't go
+		// above or below the number of cubes in the array
+		if (cubeNum == cubePositions.Length - 1) {
+			cubeNum = 0;
 		}
+		else {
+			cubeNum++;
+		}
+	
+		// change camera position
+		selectCam.transform.position = new Vector3 (cubePositions [cubeNum].transform.position.x, selectCam.transform.position.y, selectCam.transform.position.z);
 	}
+	// once the left button is clicked, decrease array count and 
+	// change camera's x position to that cube in the array
+	public void ChangeCameraPosLeft()
+	{
+		// The following if statement makes sure the cubeNum doesn't go
+		// above or below the number of cubes in the array
+		if (cubeNum ==0) {
+			cubeNum = cubePositions.Length-1;
+		} else {
+			cubeNum--;
+		}
+		// change camera position
+		selectCam.transform.position = new Vector3 (cubePositions [cubeNum].transform.position.x, selectCam.transform.position.y, selectCam.transform.position.z);
 
+	}
 }
