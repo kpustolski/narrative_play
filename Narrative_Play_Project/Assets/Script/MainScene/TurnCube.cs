@@ -3,8 +3,9 @@ using System.Collections;
 
 public class TurnCube : MonoBehaviour {
 
-    Vector3 rightClickRot = new Vector3(0, 90, 0);
-    Vector3 leftClickRot = new Vector3(90, 0, 0);
+    Vector3 wHitRot = new Vector3(180, 0, 0);
+	Vector3 sHitRot = new Vector3(-180, 0, 0);
+    //Vector3 leftClickRot = new Vector3(90, 0, 0);
     // Use this for initialization
     void Start()
     {
@@ -14,11 +15,13 @@ public class TurnCube : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(1))
-            iTween.RotateAdd(gameObject, leftClickRot, 1);
+        //if (Input.GetMouseButtonDown(1))
+         //   iTween.RotateAdd(gameObject, leftClickRot, 1);
 
-        if (Input.GetMouseButtonDown(0))
-            iTween.RotateAdd(gameObject, rightClickRot, 1);
+		if (Input.GetKeyDown ("w"))
+            iTween.RotateAdd(gameObject, wHitRot, 1);
+		if (Input.GetKeyDown ("s"))
+			iTween.RotateAdd(gameObject, sHitRot, 1);
     }
 
    /* void OnMouseDown()

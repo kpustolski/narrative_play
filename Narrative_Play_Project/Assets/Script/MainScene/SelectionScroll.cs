@@ -10,11 +10,11 @@ public class SelectionScroll : MonoBehaviour
     public GameObject[] cubePositions;
 
     // button variables for moving camera position
-    public Button left;
-    public Button right;
+    //public Button left;
+    //public Button right;
 
     //camera
-    public Camera selectCam;
+    //public Camera selectCam;
 
     //private variables
     private int cubeNum;
@@ -28,25 +28,30 @@ public class SelectionScroll : MonoBehaviour
         cubePositions = GameObject.FindGameObjectsWithTag("SelectionCubes"); ;
 
         // init. variables
-        selectCam = selectCam.GetComponent<Camera>();
-        left = left.GetComponent<Button>();
-        right = right.GetComponent<Button>();
+        //selectCam = selectCam.GetComponent<Camera>();
+        //left = left.GetComponent<Button>();
+        //right = right.GetComponent<Button>();
         cubeNum = 0;
 
         //init position of camera. The camera is set to face the first cube in the array.
         initialCamPosX = cubePositions[cubeNum].transform.position.x;
-        selectCam.transform.position = new Vector3(initialCamPosX, selectCam.transform.position.y, selectCam.transform.position.z);
+        transform.position = new Vector3(initialCamPosX, transform.position.y, transform.position.z);
     }
 
     // Update is called once per frame
     void Update()
     {
-
+		if (Input.GetKeyDown ("d")) {
+			ChangeCameraPosRight();
+		}
+		if (Input.GetKeyDown ("a")) {
+			ChangeCameraPosLeft();
+		}
     }
 
-    // once the right button is clicked, increase array count and 
+    // once the left button is clicked, increase array count and 
     // change camera's x position to that cube in the array
-    public void ChangeCameraPosRight()
+    public void ChangeCameraPosLeft()
     {
         // The following if statement makes sure the cubeNum doesn't go
         // above or below the number of cubes in the array
@@ -59,15 +64,15 @@ public class SelectionScroll : MonoBehaviour
             cubeNum++;
         }
 
-        Vector3 newPosition = new Vector3(cubePositions[cubeNum].transform.position.x, selectCam.transform.position.y, selectCam.transform.position.z);
+        Vector3 newPosition = new Vector3(cubePositions[cubeNum].transform.position.x, transform.position.y, transform.position.z);
         // change camera position with tweening
-        iTween.MoveTo(selectCam.gameObject, newPosition, 2);
+        iTween.MoveTo(gameObject, newPosition, 2);
         //basic changing positions
        // selectCam.transform.position = new Vector3(cubePositions[cubeNum].transform.position.x, selectCam.transform.position.y, selectCam.transform.position.z);
     }
-    // once the left button is clicked, decrease array count and 
+    // once the right button is clicked, decrease array count and 
     // change camera's x position to that cube in the array
-    public void ChangeCameraPosLeft()
+    public void ChangeCameraPosRight()
     {
         // The following if statement makes sure the cubeNum doesn't go
         // above or below the number of cubes in the array
@@ -79,9 +84,9 @@ public class SelectionScroll : MonoBehaviour
         {
             cubeNum--;
         }
-        Vector3 newPosition = new Vector3(cubePositions[cubeNum].transform.position.x, selectCam.transform.position.y, selectCam.transform.position.z);
+        Vector3 newPosition = new Vector3(cubePositions[cubeNum].transform.position.x, transform.position.y, transform.position.z);
         // change camera position with tweening
-        iTween.MoveTo(selectCam.gameObject, newPosition, 2);
+        iTween.MoveTo(gameObject, newPosition, 2);
         // basic changing positions
         //selectCam.transform.position = new Vector3(cubePositions[cubeNum].transform.position.x, selectCam.transform.position.y, selectCam.transform.position.z);
 
