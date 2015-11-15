@@ -397,11 +397,7 @@ public class GameBoard : MonoBehaviour {
 			
 		}
 
-
-
 		FlipCubes ();
-	
-
 	}
 
 	public void FlipCubes(){
