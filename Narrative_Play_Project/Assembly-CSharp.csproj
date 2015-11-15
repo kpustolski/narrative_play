@@ -46,12 +46,19 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Script\MainScene\CameraControl.cs" />
+<<<<<<< HEAD
      <Compile Include="Assets\Script\MainScene\GameBoard.cs" />
      <Compile Include="Assets\Script\MainScene\StoryCube.cs" />
      <Compile Include="Assets\Script\MainScene\Tile.cs" />
+=======
+     <Compile Include="Assets\Script\MainScene\Grid.cs" />
+     <Compile Include="Assets\Script\MainScene\SelectionScroll.cs" />
+     <Compile Include="Assets\Script\MainScene\TurnCube.cs" />
+>>>>>>> Katie_small_camera
      <None Include="Assets\Standard Assets\Prototyping\Shaders\WorldCoordDiffuse.shader" />
      <None Include="Assets\Standard Assets\Fonts\OpenSans\License!.txt" />
      <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
+     <None Include="Assets\Plugins\Pixelplacement\iTween\ReadMe!\ReadMe!.txt" />
      <None Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\ThirdPersonCharacterGuidelines.txt" />
      <None Include="Assets\Standard Assets\Cameras\CameraGuidelines.txt" />
      <None Include="Assets\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />
