@@ -24,7 +24,7 @@ public class TurnCube : MonoBehaviour {
 		//init variables
 
         showText = false;
-		labelText = alienText;
+		labelText = "";
 		isHumanText = true;
     }
 
@@ -48,10 +48,11 @@ public class TurnCube : MonoBehaviour {
 
 		// if the camera's x position is the same as the cube's...
 		if (selectCam1.transform.position.x == transform.position.x) {
+
 			/// if the w key is pressed...
 			if (Input.GetKeyDown ("w")) {
 				// rotate the block 180 degrees in the x direction
-				iTween.RotateAdd (gameObject, wHitRot, 1);
+				iTween.RotateAdd (gameObject, wHitRot, 0.3f);
 				//print ("rotate");
 				//print ("Equal positions human");
 
@@ -94,7 +95,7 @@ public class TurnCube : MonoBehaviour {
            // GUI.Label(new Rect(10, 10, 100, 20), "Hello World!");
 	
 			// create text.
-           GUI.Label(new Rect(Screen.width/2, 10, 100, 20), labelText, myStyle);
+           GUI.Label(new Rect(Screen.width/2-50, 10, 100, 20), labelText, myStyle);
 
         }
     }

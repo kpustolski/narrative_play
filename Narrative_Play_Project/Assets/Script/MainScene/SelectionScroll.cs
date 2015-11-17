@@ -66,7 +66,7 @@ public class SelectionScroll : MonoBehaviour
 
         Vector3 newPosition = new Vector3(cubePositions[cubeNum].transform.position.x, transform.position.y, transform.position.z);
         // change camera position with tweening
-        iTween.MoveTo(gameObject, newPosition, 2);
+        iTween.MoveTo(gameObject, newPosition, 1);
         //basic changing positions
        // selectCam.transform.position = new Vector3(cubePositions[cubeNum].transform.position.x, selectCam.transform.position.y, selectCam.transform.position.z);
     }
@@ -86,7 +86,7 @@ public class SelectionScroll : MonoBehaviour
         }
         Vector3 newPosition = new Vector3(cubePositions[cubeNum].transform.position.x, transform.position.y, transform.position.z);
         // change camera position with tweening
-        iTween.MoveTo(gameObject, newPosition, 2);
+        iTween.MoveTo(gameObject, newPosition, 1);
         // basic changing positions
         //selectCam.transform.position = new Vector3(cubePositions[cubeNum].transform.position.x, selectCam.transform.position.y, selectCam.transform.position.z);
 
