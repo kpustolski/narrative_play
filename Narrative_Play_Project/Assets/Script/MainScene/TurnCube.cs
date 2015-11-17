@@ -16,9 +16,6 @@ public class TurnCube : MonoBehaviour {
 	private bool canRotateUp;
 	private bool canRotateS;
 
-   // Vector3 humanSide;
-    //Vector3 alienSide;
-
     // Use this for initialization
     void Start()
     {
