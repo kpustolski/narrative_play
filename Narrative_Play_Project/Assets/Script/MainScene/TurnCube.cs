@@ -3,29 +3,29 @@ using System.Collections;
 
 public class TurnCube : MonoBehaviour {
 
+	// public variables
     public string humanText="";
     public string alienText= "";
-
+	//camera
     public Camera selectCam1;
 
-    private bool isRotated;
+	//private variables
     private bool showText;
     private string labelText;
-    Vector3 wHitRot = new Vector3(180, 0, 0);
-	Vector3 sHitRot = new Vector3(-180, 0, 0);
-	private bool canRotateUp;
-	private bool canRotateS;
+	private bool isHumanText;
 
-    // Use this for initialization
+	//Vector3 variables
+	Vector3 wHitRot = new Vector3(180, 0, 0);
+	//Vector3 sHitRot = new Vector3(-180, 0, 0);
+
+	// Use this for initialization
     void Start()
     {
-        isRotated = false;
+		//init variables
+
         showText = false;
 		labelText = alienText;
-		canRotateUp = true;
-
-  //      humanSide = new Vector3(0.3515936f, 0, 0);
-       // alienSide = new Vector3(359.8242f, 180, 180);
+		isHumanText = true;
     }
 
     // Update is called once per frame
@@ -34,12 +34,8 @@ public class TurnCube : MonoBehaviour {
         //print("camera position.x: "+ selectCam1.transform.position.x);
         //print("cube position.x: " + (transform.position.x));
 
-		/*else if (transform.rotation.x >= 0.01f && transform.rotation.x <= 100f && selectCam1.transform.position.x == transform.position.x)
-        {
-               print("Equal positions alien");
-               labelText = alienText;            
-        }*/
-
+		// if there is text, show it
+		// else don't show it
         if(labelText != "")
         {
             showText = true;
@@ -49,45 +45,45 @@ public class TurnCube : MonoBehaviour {
             labelText = "";
             showText = false;
         }
-		if (selectCam1.transform.position.x == transform.position.x) {
-			if (Input.GetKeyDown ("w")) {
-				iTween.RotateAdd (gameObject, wHitRot, 1);
-				print ("rotatae");
-				print ("Equal positions human");
 
-				if (canRotateUp) {
+		// if the camera's x position is the same as the cube's...
+		if (selectCam1.transform.position.x == transform.position.x) {
+			/// if the w key is pressed...
+			if (Input.GetKeyDown ("w")) {
+				// rotate the block 180 degrees in the x direction
+				iTween.RotateAdd (gameObject, wHitRot, 1);
+				//print ("rotate");
+				//print ("Equal positions human");
+
+				// determine whether to show human or alien text. 
+				if (isHumanText) {
 					labelText = humanText;
-					canRotateUp = false;
-				} else if (!canRotateUp) {
+					isHumanText = false;
+				} else if (!isHumanText) {
 					labelText = alienText;
-					canRotateUp = true;
+					isHumanText = true;
 				}
 
 				
-			}
-
-			/*if (Input.GetKeyDown("s"))
-			{
-				iTween.RotateAdd(gameObject, sHitRot, 1);
-				print("rotatae");
-				labelText = alienText;
-				//isRotated = true;
-			}*/
-		} else {
+			} // end keydown w
+		// else label text is blank
+		} 
+		else {
 			labelText="";
 		}
-            //isRotated = true;
         
-     
-    }
+    } // end update
 
+	// GUI function
     void OnGUI()
     {
+		// if we want the text to show...
         if (showText == true)
         {
+			// play with text style
             GUIStyle myStyle = new GUIStyle();
             GUI.color = Color.black;
-            myStyle.fontSize = 10;
+            myStyle.fontSize = 20;
             //http://answers.unity3d.com/questions/17683/custom-font-in-guilabel-but-cant-change-its-color.html
             myStyle.normal.textColor = Color.white;
             myStyle.fontStyle = FontStyle.Bold;
@@ -96,8 +92,9 @@ public class TurnCube : MonoBehaviour {
             //myStyle.alignment= TextAnchor.MiddleCenter;
             //GUI.backgroundColor=Color.clear;
            // GUI.Label(new Rect(10, 10, 100, 20), "Hello World!");
-
-           GUI.Label(new Rect(10, 10, 100, 20), labelText, myStyle);
+	
+			// create text.
+           GUI.Label(new Rect(Screen.width/2, 10, 100, 20), labelText, myStyle);
 
         }
     }
