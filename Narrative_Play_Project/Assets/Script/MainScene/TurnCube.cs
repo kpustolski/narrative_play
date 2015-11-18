@@ -61,9 +61,11 @@ public class TurnCube : MonoBehaviour {
                  if (isHumanText) {
                      labelText = humanText;
                      isHumanText = false;
+					gameObject.GetComponent<SCube>().isAlien = false;
                  } else if (!isHumanText) {
                      labelText = alienText;
                      isHumanText = true;
+					gameObject.GetComponent<SCube>().isAlien = true;
                  }
 
 

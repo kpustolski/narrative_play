@@ -13,6 +13,9 @@ public class SelectionCubeManager : MonoBehaviour {
     public string humanText;
     public string alienText;
 
+	// which side up
+	public bool isAlien = false; // default human state 
+
 	// Use this for initialization
 	void Start () {
 

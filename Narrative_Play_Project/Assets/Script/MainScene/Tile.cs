@@ -14,6 +14,7 @@ public class Tile : MonoBehaviour {
 	public GameObject SCubeR;
 	public GameObject SCubeG;
 	public GameObject Board;  // get the game board to place cube in it 
+	public GameObject SelectWindow;
 
 
 	public void initTile(int _x, int _y)
@@ -29,6 +30,7 @@ public class Tile : MonoBehaviour {
 		rend = gameObject.GetComponent<Renderer> ();
 		startcolor = rend.material.color;
 		Board = GameObject.Find("Grid");
+		SelectWindow = GameObject.Find ("Selection Cubes");
 
 	}
 	
@@ -60,7 +62,11 @@ public class Tile : MonoBehaviour {
 			//---- For Othello Test ----//
 			// TODO: create cube according to cube type 
 			// get the current cube type
-			if(Input.GetKey(KeyCode.G)){
+			GameObject lookAtCube = SelectWindow.GetComponent<SelectManager>().getLookAtCube();
+
+			Debug.Log ("TEST CUBE BOOL : " + lookAtCube.GetComponent<SCube>().isAlien.ToString());
+
+			if(lookAtCube.GetComponent<SCube>().isAlien){
 				CloneCube = Instantiate (SCubeG, cposition, transform.rotation) as GameObject;
 				CloneCube.GetComponent<StoryCube>().isGreen = true;
 			}else{
@@ -69,13 +75,17 @@ public class Tile : MonoBehaviour {
 			}
 			isFilled = true;
 			// update the story cube prefab data 
-			CloneCube.GetComponent<StoryCube>().ID = gameObject.GetComponent<Tile>().tIdx;
+			CloneCube.GetComponent<StoryCube>().ID = lookAtCube.GetComponent<SCube>().cID;
 			CloneCube.GetComponent<StoryCube>().cPosX = gameObject.GetComponent<Tile>().posX;
 			CloneCube.GetComponent<StoryCube>().cPosY = gameObject.GetComponent<Tile>().posY;
 
 			// regiter the cube to the board 
 			Board.GetComponent<GameBoard>().AddToBoard(CloneCube.GetComponent<StoryCube>());
 			Board.GetComponent<GameBoard>().SearchForReverse(CloneCube.GetComponent<StoryCube>());
+
+			// delete the cube from the selection window 
+			SelectWindow.GetComponent<SelectManager>().useCube(lookAtCube);
+
 		} else {
 			Debug.Log ("Cube already existed!!");
 		}
