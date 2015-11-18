@@ -48,8 +48,8 @@ public class SCube : MonoBehaviour {
 		// ----- for test 
 		humanText = "Cube " + cID.ToString() + ": human side";
 		alienText = "Cube " + cID.ToString() + ": alien side";
-		// ----- hard code all the story cubes 
-		
+
+		// -----TODO: hard code all the story cubes 
 		//		switch (cID) {
 		//		case 1:
 		//			humanText = "Cube 1: human side";
