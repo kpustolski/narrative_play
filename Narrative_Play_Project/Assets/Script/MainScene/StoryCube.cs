@@ -9,6 +9,9 @@ public class StoryCube : MonoBehaviour {
 	public int cPosX;
 	public int cPosY;
 
+	public string hText; // human text
+	public string aText; // alien text 
+
 
 	// Use this for initialization
 	void Start () {

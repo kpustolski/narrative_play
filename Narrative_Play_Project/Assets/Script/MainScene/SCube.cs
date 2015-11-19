@@ -50,7 +50,7 @@ public class SCube : MonoBehaviour {
         alienText = "Cube " + cID.ToString() + ": alien side";
 
         // -----TODO: hard code all the story cubes 
-        /*switch (cID) {
+        switch (cID) {
             //ACT 1
 			case 1:
 				humanText = "My body aches to break the seal.\nI feel pale and weird and unfinished.";
@@ -115,7 +115,7 @@ public class SCube : MonoBehaviour {
                 alienText = "I'm ashamed of my arrogance.\nMy petty jealousy nearly cost our lives.\nLove gave us a second chance.\nI am only one voice in this body,\none small voice in this universe,\nborn of what, we know not.";
                 break;
 
-        }*/
+        }
     }
 
 
@@ -154,15 +154,10 @@ public class SCube : MonoBehaviour {
 			if (Input.GetKeyDown ("w")) {
 				// rotate the block 180 degrees in the x direction
 				iTween.RotateAdd (gameObject, wHitRot, 0.3f);
-				//print ("rotate");
-				//print ("Equal positions human");
 				isAlien = !isAlien;
-				
-				// determine whether to show human or alien text. 
-
-			
 			} // end keydown w
-			// else label text is blank
+
+
 		} 
 		else {
 			labelText="";

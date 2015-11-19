@@ -5,10 +5,13 @@ using System.Collections.Generic;
 public class SelectManager : MonoBehaviour {
 
 	[SerializeField] int maxCubeNum=5;
+	private int cubeNum=0;
 	private int curCubeNum=0; // current cube number
 	private int usedCubeNum=0; // used cube number
 	private int curStage=0; // current stage of the story 
 	private List<GameObject> cubesForSelect; // cubes shown in the current selection window
+	private Transform[] cubePositions;
+	private bool isProgress = false;
 
 	// 
 	public Transform startPosition;
@@ -16,6 +19,7 @@ public class SelectManager : MonoBehaviour {
 	[SerializeField] float step = 5.0f; // the distance between two neighbouring cubes 
 
 	public Camera selCam;
+	public GameObject selectCamera;
 
 
 	// Use this for initialization
@@ -23,17 +27,87 @@ public class SelectManager : MonoBehaviour {
 		// initialize the number of cubes 
 		cubesForSelect = new List<GameObject> ();
 		initCubePosition (0);
+		selectCamera.transform.position = new Vector3 (startPosition.position.x, 
+		                                               selectCamera.transform.position.y, 
+		                                               selectCamera.transform.position.z);
+		getCubePos ();
 
 	
 	}
 
 	
-	// Update is called once per frame
-	void Update () {
+	void Update()
+	{
+		if (Input.GetKeyDown ("d")) {
+			//ChangeCameraPosRight();
+			ChangeCameraPosLeft();
+		}
+		if (Input.GetKeyDown ("a")) {
+			//ChangeCameraPosLeft();
+			ChangeCameraPosRight();
+		}
+
+		// changing stage 
+		if (usedCubeNum == 5 && isProgress) {
+			curStage = 1;
+			initCubePosition(1);
+			isProgress = false;
+		}
+
+		if (usedCubeNum == 10 && isProgress) {
+			curStage = 2;
+			initCubePosition(2);
+			isProgress = false;
+		}
+	}
+
+	// get the positions of the cubes in the selection window 
+	public void getCubePos(){
+		int i = 0;
+		cubePositions = new Transform[cubesForSelect.Count];
+		foreach (GameObject c in cubesForSelect) {
+			cubePositions[i]=c.transform;
+			i += 1;
+		}
+	}
+
+	public void ChangeCameraPosLeft()
+	{
+		// The following if statement makes sure the cubeNum doesn't go
+		// above or below the number of cubes in the array
+		if (cubeNum == cubePositions.Length - 1)
+		{
+			cubeNum = 0;
+		}
+		else
+		{
+			cubeNum++;
+		}
+		
+		Vector3 newPosition = new Vector3(cubePositions[cubeNum].position.x, selectCamera.transform.position.y, selectCamera.transform.position.z);
+		// change camera position with tweening
+		iTween.MoveTo(selectCamera, newPosition, 1);
 	
 	}
 
-
+	public void ChangeCameraPosRight()
+	{
+		// The following if statement makes sure the cubeNum doesn't go
+		// above or below the number of cubes in the array
+		if (cubeNum == 0)
+		{
+			cubeNum = cubePositions.Length - 1;
+		}
+		else
+		{
+			cubeNum--;
+		}
+		Vector3 newPosition = new Vector3(cubePositions[cubeNum].position.x, selectCamera.transform.position.y, selectCamera.transform.position.z);
+		// change camera position with tweening
+		iTween.MoveTo(selectCamera, newPosition, 1);
+		
+	}
+	
 	// arrange the inital cube position 
 	public void initCubePosition(int _stage){
 		Vector3 cubePos = startPosition.position;
@@ -41,7 +115,7 @@ public class SelectManager : MonoBehaviour {
 	
 		for (int i=0; i<maxCubeNum; i++) {
 			GameObject cube = Instantiate(cubePrefab, cubePos, transform.rotation) as GameObject;
-			cube.transform.parent = startPosition.transform.parent;
+			cube.transform.parent = startPosition.transform;
 			cube.GetComponent<SCube>().initCube(curIdx, cubePos.x, cubePos.z);
 //			cube.GetComponent<TurnCube>().humanText = cube.GetComponent<SCube>().humanText;
 //			cube.GetComponent<TurnCube>().alienText = cube.GetComponent<SCube>().alienText;
@@ -56,6 +130,8 @@ public class SelectManager : MonoBehaviour {
 		Debug.Log ("Current Cube Num: " + curCubeNum);
 	}
 
+
+
 	public void reArrangeCubes()
 	{
 		if (curCubeNum == maxCubeNum) {
@@ -64,6 +140,7 @@ public class SelectManager : MonoBehaviour {
 
 		if (curCubeNum == 0 && curStage < 3) {
 			Debug.Log("Move to next Stage");
+			isProgress = true;
 		}
 
 		if (curCubeNum > 0 && curCubeNum < 5) {
@@ -78,8 +155,11 @@ public class SelectManager : MonoBehaviour {
 //				xpos = cubePos.x;
 				cpos.x = cubePos.x;
 				cubePos.x += step;
+				c.transform.position = cpos;
 			}
 		}
+
+		// reset the selection camera position 
 	}
 
 
@@ -101,6 +181,8 @@ public class SelectManager : MonoBehaviour {
 		Destroy (_cube);
 		curCubeNum -= 1;
 		reArrangeCubes ();
+		getCubePos ();
+		usedCubeNum += 1;
 	}
 
 	public GameObject getLookAtCube(){

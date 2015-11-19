@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 
 // Implement the Othello Game Control 
@@ -26,8 +27,6 @@ public class boardCell{
 	public int y;
 	public int side = 0;
 	public StoryCube cube;
-
-
 
 	public boardCell(StoryCube _cube)
 	{
@@ -60,6 +59,11 @@ public class GameBoard : MonoBehaviour {
 	private List<StoryCube> CubesToFlip;
 	private boardCell [][] cells;    // cell information 
 
+	// for flipping text in the scroll bar 
+	public GameObject StoryTab;
+	private string StoryText;
+
+
 
 	// Use this for initialization
 	void Awake(){
@@ -82,6 +86,9 @@ public class GameBoard : MonoBehaviour {
 		CubesToFlip.Clear ();
 		// init game board (Tiles)
 		GenerateBoard ();
+
+		// init text 
+		StoryText = "- THE STORY - \n";
 
 	}
 	
@@ -398,6 +405,7 @@ public class GameBoard : MonoBehaviour {
 		}
 
 		FlipCubes ();
+		FlipText ();
 	}
 
 	public void FlipCubes(){
@@ -415,8 +423,31 @@ public class GameBoard : MonoBehaviour {
 			sc.isGreen = !sc.isGreen;
 		}
 
+		// update the board information 
 		RefreshCell();
 		CubesToFlip.Clear();
+	}
+
+	// flip the text in the scorll bar 
+	public void FlipText(){
+		// read from the cubes on board 
+		if (CubesToFlip != null) {
+			StoryText = "- THE STORY - \n";
+			foreach (StoryCube sc in CubesOnBoard) {
+				if(!sc.isGreen)
+				{
+					string t = "\n" + "- " + sc.hText + "\n";
+					StoryText += t;
+				}else
+				{
+					string t = "\n" + "- " +sc.aText + "\n";
+					StoryText += t;
+				}
+
+			}
+			StoryTab.GetComponent<Text>().text = StoryText;
+		}
+
 	}
 
 

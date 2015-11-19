@@ -25,7 +25,7 @@ public class SelectionScroll : MonoBehaviour
     void Start()
     {
         // find cubes with the following label
-        cubePositions = GameObject.FindGameObjectsWithTag("SelectionCubes"); ;
+        cubePositions = GameObject.FindGameObjectsWithTag("SelectionCubes");
 
         // init. variables
         //selectCam = selectCam.GetComponent<Camera>();
@@ -42,10 +42,12 @@ public class SelectionScroll : MonoBehaviour
     void Update()
     {
 		if (Input.GetKeyDown ("d")) {
-			ChangeCameraPosRight();
+			//ChangeCameraPosRight();
+			ChangeCameraPosLeft();
 		}
 		if (Input.GetKeyDown ("a")) {
-			ChangeCameraPosLeft();
+			//ChangeCameraPosLeft();
+			ChangeCameraPosRight();
 		}
     }
 
@@ -91,5 +93,13 @@ public class SelectionScroll : MonoBehaviour
         //selectCam.transform.position = new Vector3(cubePositions[cubeNum].transform.position.x, selectCam.transform.position.y, selectCam.transform.position.z);
 
     }
+
+	// update cube position after delete cube from the selection window 
+	public void updateCubePositions(){
+		GameObject [] narray = {};
+		cubePositions = narray;
+		cubePositions = GameObject.FindGameObjectsWithTag("SelectionCubes");
+		Debug.Log ("Update position arrays: " + cubePositions.Length);
+	}
 }
 
