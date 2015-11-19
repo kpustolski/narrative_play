@@ -87,7 +87,7 @@ public class TurnCube : MonoBehaviour {
              // play with text style
              GUIStyle myStyle = new GUIStyle();
              GUI.color = Color.black;
-             myStyle.fontSize = 20;
+             myStyle.fontSize = 12;
              //http://answers.unity3d.com/questions/17683/custom-font-in-guilabel-but-cant-change-its-color.html
              myStyle.normal.textColor = Color.white;
              myStyle.fontStyle = FontStyle.Bold;
@@ -98,7 +98,7 @@ public class TurnCube : MonoBehaviour {
             // GUI.Label(new Rect(10, 10, 100, 20), "Hello World!");
 
              // create text.
-            GUI.Label(new Rect(Screen.width/2-50, 10, 100, 20), labelText, myStyle);
+            GUI.Box(new Rect(Screen.width/2-75, 10, 100, 20), labelText, myStyle);
 
          }
      }
