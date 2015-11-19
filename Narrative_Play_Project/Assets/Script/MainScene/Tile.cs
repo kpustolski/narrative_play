@@ -89,11 +89,11 @@ public class Tile : MonoBehaviour {
 		} else if (usedCubeCount > 9 && usedCubeCount <= 13) {
 			prefabG = SCubeGL;
 			prefabR = SCubeRL;
-			offset = 16.0f;
+			offset = 12.0f;
 		} else {
 			prefabG = SCubeGFinal;
 			prefabR = SCubeRFinal;
-			offset = 32.0f;
+			offset = 20.0f;
 		}
 
 
