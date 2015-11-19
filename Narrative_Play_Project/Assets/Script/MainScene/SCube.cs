@@ -25,7 +25,8 @@ public class SCube : MonoBehaviour {
 	private bool isHumanText;
 	
 	//Vector3 variables
-	Vector3 wHitRot = new Vector3(180, 0, 0);
+	public Vector3 wHitRot = new Vector3(180, 0, 0);
+	public bool isEnd = false;
 	//Vector3 sHitRot = new Vector3(-180, 0, 0);
 	
 	// Use this for initialization
@@ -154,7 +155,8 @@ public class SCube : MonoBehaviour {
 			if (Input.GetKeyDown ("w")) {
 				// rotate the block 180 degrees in the x direction
 				iTween.RotateAdd (gameObject, wHitRot, 0.3f);
-				isAlien = !isAlien;
+
+				if(!isEnd){isAlien = !isAlien;}
 			} // end keydown w
 
 

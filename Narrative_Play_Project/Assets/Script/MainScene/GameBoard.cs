@@ -63,6 +63,12 @@ public class GameBoard : MonoBehaviour {
 	public GameObject StoryTab;
 	private string StoryText;
 
+	// for game 
+	[SerializeField] int CubesInGame = 15;
+	private int totalCube = 0;
+	public int redCube = 0;
+	public int greenCube = 0;
+
 
 
 	// Use this for initialization
@@ -94,6 +100,15 @@ public class GameBoard : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		// reaching the end state 
+		if (totalCube == CubesInGame) {
+			Debug.Log("END GAME (RED " + redCube + ", GREEN " + greenCube + ")");
+			// show human ending 
+			if(redCube > greenCube)
+			{
+
+			}
+		}
 	
 	}
 
@@ -165,12 +180,21 @@ public class GameBoard : MonoBehaviour {
 	// ## update board cell data 
 	public void RefreshCell()
 	{
+		//totalCube = CubesOnBoard.Count;
+		greenCube = redCube = 0;
 		foreach (StoryCube sc in CubesOnBoard) {
 			int i = sc.cPosX;
 			int j = sc.cPosY;
 			cells[i][j] = new boardCell(sc);
+			// update cube count
+			if(sc.isGreen)
+			{
+				greenCube += 1;
+			}else{
+				redCube += 1;
+			}
 		}
-
+		totalCube = redCube + greenCube;
 	}
 
 	

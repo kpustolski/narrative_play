@@ -20,6 +20,7 @@ public class SelectManager : MonoBehaviour {
 
 	public Camera selCam;
 	public GameObject selectCamera;
+	public GameObject board;
 
 
 	// Use this for initialization
@@ -57,6 +58,12 @@ public class SelectManager : MonoBehaviour {
 		if (usedCubeNum == 10 && isProgress) {
 			curStage = 2;
 			initCubePosition(2);
+			isProgress = false;
+		}
+
+		if (usedCubeNum == 14 && isProgress) {
+			curStage = 3;
+			generateEnding(board.GetComponent<GameBoard>().redCube > board.GetComponent<GameBoard>().greenCube);
 			isProgress = false;
 		}
 	}
@@ -112,33 +119,79 @@ public class SelectManager : MonoBehaviour {
 	public void initCubePosition(int _stage){
 		Vector3 cubePos = startPosition.position;
 		int curIdx = _stage * maxCubeNum + 1; 
-	
-		for (int i=0; i<maxCubeNum; i++) {
-			GameObject cube = Instantiate(cubePrefab, cubePos, transform.rotation) as GameObject;
-			cube.transform.parent = startPosition.transform;
-			cube.GetComponent<SCube>().initCube(curIdx, cubePos.x, cubePos.z);
-//			cube.GetComponent<TurnCube>().humanText = cube.GetComponent<SCube>().humanText;
-//			cube.GetComponent<TurnCube>().alienText = cube.GetComponent<SCube>().alienText;
-			cube.GetComponent<SCube>().selectCam1 = selCam;
-			//
-			cubesForSelect.Add(cube);
-			cubePos.x += step;
-			curIdx ++;
-			curCubeNum ++;
+
+		if (_stage < 2) {
+			for (int i=0; i<maxCubeNum; i++) {
+				GameObject cube = Instantiate (cubePrefab, cubePos, transform.rotation) as GameObject;
+				cube.transform.parent = startPosition.transform;
+				cube.GetComponent<SCube> ().initCube (curIdx, cubePos.x, cubePos.z);
+				cube.GetComponent<SCube> ().selectCam1 = selCam;
+				cubesForSelect.Add (cube);
+				cubePos.x += step;
+				curIdx ++;
+				curCubeNum ++;
+			}
+		} else {
+			for (int i=0; i<maxCubeNum-1; i++) {
+				GameObject cube = Instantiate (cubePrefab, cubePos, transform.rotation) as GameObject;
+				cube.transform.parent = startPosition.transform;
+				cube.GetComponent<SCube> ().initCube (curIdx, cubePos.x, cubePos.z);
+				cube.GetComponent<SCube> ().selectCam1 = selCam;
+				cubesForSelect.Add (cube);
+				cubePos.x += step;
+				curIdx ++;
+				curCubeNum ++;
+			}
 		}
+	
 
 		Debug.Log ("Current Cube Num: " + curCubeNum);
+	}
+
+	// generate the last ending block
+	public void generateEnding(bool isHumanEnding)
+	{
+		selectCamera.transform.position = new Vector3 (startPosition.position.x, 
+		                                               selectCamera.transform.position.y, 
+		                                               selectCamera.transform.position.z);
+		int curIdx = 15;
+		if (isHumanEnding) {
+			GameObject cube = Instantiate (cubePrefab, startPosition.position, startPosition.transform.rotation) as GameObject;
+			cube.transform.parent = startPosition.transform;
+			cube.GetComponent<SCube> ().initCube (curIdx, startPosition.position.x, startPosition.position.z);
+			cube.GetComponent<SCube> ().wHitRot = new Vector3 (360.0f, 0, 0);
+			cube.GetComponent<SCube> ().isEnd = true;
+			cube.GetComponent<SCube> ().isAlien = false;
+			cube.GetComponent<SCube> ().selectCam1 = selCam;
+			cubesForSelect.Add (cube);
+		} else {
+			Quaternion rotation = startPosition.transform.rotation;
+			rotation.x += 180.0f;
+			GameObject cube = Instantiate (cubePrefab, startPosition.position, rotation) as GameObject;
+			cube.transform.parent = startPosition.transform;
+			cube.GetComponent<SCube> ().initCube (curIdx, startPosition.position.x, startPosition.position.z);
+			cube.GetComponent<SCube> ().wHitRot = new Vector3 (360.0f, 0, 0);
+			cube.GetComponent<SCube> ().isEnd = true;
+			cube.GetComponent<SCube> ().isAlien = true;
+			cube.GetComponent<SCube> ().selectCam1 = selCam;
+			cubesForSelect.Add (cube);
+		}
+		curCubeNum = 1;
+	
 	}
 
 
 
 	public void reArrangeCubes()
 	{
+		selectCamera.transform.position = new Vector3 (startPosition.position.x, 
+		                                               selectCamera.transform.position.y, 
+		                                               selectCamera.transform.position.z);
 		if (curCubeNum == maxCubeNum) {
 			return;
 		}
 
-		if (curCubeNum == 0 && curStage < 3) {
+		if (curCubeNum == 0 && curStage < 4) {
 			Debug.Log("Move to next Stage");
 			isProgress = true;
 		}
