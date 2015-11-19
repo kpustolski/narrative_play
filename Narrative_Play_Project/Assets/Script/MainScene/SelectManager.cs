@@ -7,7 +7,7 @@ public class SelectManager : MonoBehaviour {
 	[SerializeField] int maxCubeNum=5;
 	private int cubeNum=0;
 	private int curCubeNum=0; // current cube number
-	private int usedCubeNum=0; // used cube number
+	public int usedCubeNum=0; // used cube number
 	private int curStage=0; // current stage of the story 
 	private List<GameObject> cubesForSelect; // cubes shown in the current selection window
 	private Transform[] cubePositions;

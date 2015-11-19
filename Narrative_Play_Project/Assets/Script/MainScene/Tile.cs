@@ -13,8 +13,20 @@ public class Tile : MonoBehaviour {
 	public int posY;
 	public int tIdx; // tile index 
 
+	// small cubes 
 	public GameObject SCubeR;
 	public GameObject SCubeG;
+	// middle cubes
+	public GameObject SCubeRM;
+	public GameObject SCubeGM;
+	// large cubes 
+	public GameObject SCubeRL;
+	public GameObject SCubeGL;
+	// final cubes
+	public GameObject SCubeRFinal;
+	public GameObject SCubeGFinal;
+	private int usedCubeCount; 
+
 	public GameObject Board;  // get the game board to place cube in it 
 	public GameObject SelectWindow;
 	public GameObject SelectCamera;
@@ -42,6 +54,8 @@ public class Tile : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		// track theuse of cubes 
+		usedCubeCount = SelectWindow.GetComponent<SelectManager> ().usedCubeNum;
 	
 	}
 	
@@ -60,11 +74,34 @@ public class Tile : MonoBehaviour {
 	// select grid cell and place the cube 
 	// TODO: generate cube according to the cube index in the right position 
 	void OnMouseDown(){
+		// get the prefab of cubes
+		GameObject prefabR;
+		GameObject prefabG;
+		float offset = 0.0F;
+		if (usedCubeCount <= 4) {
+			prefabG = SCubeG;
+			prefabR = SCubeR;
+			offset = 4.0f;
+		} else if (usedCubeCount > 4 && usedCubeCount <= 9) {
+			prefabG = SCubeGM;
+			prefabR = SCubeRM;
+			offset = 8.0f;
+		} else if (usedCubeCount > 9 && usedCubeCount <= 13) {
+			prefabG = SCubeGL;
+			prefabR = SCubeRL;
+			offset = 16.0f;
+		} else {
+			prefabG = SCubeGFinal;
+			prefabR = SCubeRFinal;
+			offset = 32.0f;
+		}
+
+
 		if (!isFilled) {
 			Debug.Log ("Place a cube!!");
 			GameObject CloneCube;
 			Vector3 cposition = gameObject.transform.position;
-			cposition.y += 4.0F;
+			cposition.y += offset;
 			//---- For Othello ----//
 			// create cube according to cube type 
 			// get the current cube type
@@ -74,11 +111,11 @@ public class Tile : MonoBehaviour {
 			//Debug.Log ("TEST CUBE BOOL : " + lookAtCube.GetComponent<SCube>().isAlien.ToString());
 
 			if(lookAtCube.GetComponent<SCube>().isAlien){
-				CloneCube = Instantiate (SCubeG, cposition, transform.rotation) as GameObject;
+				CloneCube = Instantiate (prefabG, cposition, transform.rotation) as GameObject;
 				CloneCube.GetComponent<StoryCube>().isGreen = true;
 				lookAtText = lookAtCube.GetComponent<SCube>().alienText;
 			}else{
-				CloneCube = Instantiate (SCubeR, cposition, transform.rotation) as GameObject;
+				CloneCube = Instantiate (prefabR, cposition, transform.rotation) as GameObject;
 				CloneCube.GetComponent<StoryCube>().isGreen = false;
 				lookAtText = lookAtCube.GetComponent<SCube>().humanText;
 			}

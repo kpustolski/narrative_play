@@ -28,6 +28,7 @@ public class boardCell{
 	public int side = 0;
 	public StoryCube cube;
 
+
 	public boardCell(StoryCube _cube)
 	{
 		cellCubeId = _cube.ID;
