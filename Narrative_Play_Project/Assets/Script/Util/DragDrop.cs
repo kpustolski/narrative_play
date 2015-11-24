@@ -32,11 +32,7 @@ public class DragDrop : MonoBehaviour {
 		}
 	}
 
-	// do the highlight shader 
-	void OnMouseOver(){
-		
-	}
-	
+
 	void OnMouseDrag() 
 	{  
 		if (!isSettled) {
@@ -49,25 +45,28 @@ public class DragDrop : MonoBehaviour {
 	// when release the mouse, check for collision 
 	void OnMouseUp()
 	{
-		if (!isTargetFound) {
-			target = original;
+		if (!isSettled) {
+			if (!isTargetFound) {
+				target = original;
 
 //			target.x = oriPos.x;
 //			target.y = oriPos.y;
 //			target.z = oriPos.z;
-		} else {
-			node.activateMore();
-			//node.addItem(gameObject);
-			net.GetComponent<Network>().addItemToCell(node.nodeIdx.x, node.nodeIdx.y, gameObject);
-			net.GetComponent<Network>().searchForReverse(node);
+			} else {
+				node.activateMore ();
+				//node.addItem(gameObject);
+				net.GetComponent<Network> ().addItemToCell (node.nodeIdx.x, node.nodeIdx.y, gameObject);
+				node.isFilled = true;
+				net.GetComponent<Network> ().searchForReverse (node);
+				isSettled = true;
+
+			}
 
 
-			isSettled = true;
+			// move the object to the target position 
+			iTween.MoveTo (gameObject, target, 1.0f);
+			net.GetComponent<Network> ().searchForReverse (node);
 		}
-
-
-		// move the object to the target position 
-		iTween.MoveTo (gameObject,target, 2.0f);
 
 	}
 

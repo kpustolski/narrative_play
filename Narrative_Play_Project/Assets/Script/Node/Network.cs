@@ -362,7 +362,7 @@ public class Network : MonoBehaviour {
 		for (int i = 0; i<nWidth; i++) {
 			for (int j = 0; j<nHeight; j++)
 			{
-				if(cells[i][j].node != null && cells[i][j].item != null)
+				if(cells[i][j].side != 0)
 				{
 					if(cells[i][j].item.GetComponent<StoryItem>().isAlien)
 					{
