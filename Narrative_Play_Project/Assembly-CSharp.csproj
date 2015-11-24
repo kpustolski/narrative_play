@@ -53,6 +53,11 @@
      <Compile Include="Assets\Script\MainScene\StoryCube.cs" />
      <Compile Include="Assets\Script\MainScene\Tile.cs" />
      <Compile Include="Assets\Script\MainScene\TurnCube.cs" />
+     <Compile Include="Assets\Script\Node\Network.cs" />
+     <Compile Include="Assets\Script\Node\Node.cs" />
+     <Compile Include="Assets\Script\Node\StoryItem.cs" />
+     <Compile Include="Assets\Script\Node\Vertex.cs" />
+     <Compile Include="Assets\Script\Util\DragDrop.cs" />
      <None Include="Assets\Standard Assets\Prototyping\Shaders\WorldCoordDiffuse.shader" />
      <None Include="Assets\Standard Assets\Fonts\OpenSans\License!.txt" />
      <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
