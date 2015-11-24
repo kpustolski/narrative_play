@@ -10,11 +10,13 @@ public class DragDrop : MonoBehaviour {
 	private bool isTargetFound;
 	private bool isSettled;
 	private Node node;
+	private GameObject net;
 
 	void Start(){
 		isTargetFound = false;
 		isSettled = false;
 		original = gameObject.transform.localPosition;
+		net = GameObject.FindGameObjectWithTag("network");
 		//oriPos = new Vector3 (original.x, original.y, original.z);
 	}
 
@@ -28,6 +30,11 @@ public class DragDrop : MonoBehaviour {
 			// get the offset (difference in cooordinates) for dragging 
 			offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
 		}
+	}
+
+	// do the highlight shader 
+	void OnMouseOver(){
+		
 	}
 	
 	void OnMouseDrag() 
@@ -50,6 +57,11 @@ public class DragDrop : MonoBehaviour {
 //			target.z = oriPos.z;
 		} else {
 			node.activateMore();
+			//node.addItem(gameObject);
+			net.GetComponent<Network>().addItemToCell(node.nodeIdx.x, node.nodeIdx.y, gameObject);
+			net.GetComponent<Network>().searchForReverse(node);
+
+
 			isSettled = true;
 		}
 
@@ -62,7 +74,7 @@ public class DragDrop : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other)
 	{
-		if (other != null && other.CompareTag("node")) {
+		if (other != null && other.CompareTag("node") && !other.GetComponent<Node>().isFilled) {
 			isTargetFound = true;
 			target = other.transform.position;
 			target -= 1.0f * Vector3.forward;

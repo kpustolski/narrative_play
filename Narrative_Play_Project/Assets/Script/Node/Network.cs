@@ -12,6 +12,7 @@ public class NodeCell{
 	public int y;
 	public int side; // 0: no item | 1: human side | 2: alien side
 	public GameObject node;  // clone of the node prefab
+	public GameObject item;  // item on that cell 
 	// the story object
 	// public StoryItem item;
 		
@@ -22,6 +23,8 @@ public class NodeCell{
 		isActive = false;
 		isActivedOnce = false;
 		side = 0;
+		node = null;
+		item = null;
 	}
 }
 
@@ -108,21 +111,282 @@ public class Network : MonoBehaviour {
 		} 
 	}
 
+	// add item to a specific cell 
+	public void addItemToCell(int i,int j, GameObject _itm){
+		cells[i][j].item = _itm;
+		if (_itm.GetComponent<StoryItem> ().isAlien) {
+			cells [i] [j].side = 2;
+		} else {
+			cells [i] [j].side = 1;
+		}
+	}
+
 
 	// check if the cell need to be flipped 
 	// search for four directions instead of eight 
 	// animation + voice over  
-	void searchForReverse(){
+	public void searchForReverse(Node _node){
+		Debug.Log("Search for flip");
+
+		int _posX = _node.nodeIdx.x;
+		int _posY = _node.nodeIdx.y;
+		// -- 1. search horizontally
+		// searching along +x
+		for (int i = _posX + 1; i < nWidth; i++) {
+			if(cells[i][_posY].item == null)
+			{
+				Debug.Log("+x is null");
+				break;
+			}
+			
+			if(cells[i][_posY].item != null && cells[_posX][_posY].side == cells[i][_posY].side)
+			{
+				if(i-_posX > 1)
+				{
+					for(int j = i-1; j>_posX; j--)
+					{
+						nodesToFlip.Add(cells[j][_posY]);
+					}
+					break;
+					
+				}else{
+					break;
+				}
+				
+				
+			}
+			
+		}
+		
+		// searching along -x
+		for (int i = _posX - 1; i >=0; i--) {
+			if(cells[i][_posY].side == 0)
+			{
+				Debug.Log("-x is null");
+				break;
+			}
+			
+			if(cells[i][_posY].side != 0 && cells[_posX][_posY].side == cells[i][_posY].side)
+			{
+				if(_posX-i > 1)
+				{
+					for(int j = i+1; j<_posX; j++)
+					{
+						nodesToFlip.Add(cells[j][_posY]);
+					}
+					break;
+					
+				}else{
+					break;
+				}
+				
+			}
+			
+		}
+		
+		// -- 2. search vertically
+		// search along +y
+		for (int j = _posY + 1; j < nHeight; j++) {
+			if(cells[_posX][j].side == 0)
+			{
+				Debug.Log("+y is null");
+				break;
+			}
+			
+			if(cells[_posX][j].side != 0 && cells[_posX][_posY].side == cells[_posX][j].side)
+			{
+				if(j-_posY > 1)
+				{
+					for(int i = j-1; i>_posY; i--)
+					{
+						nodesToFlip.Add(cells[_posX][i]);
+					}
+					break;
+					
+				}else{
+					break;
+				}
+				
+			}
+			
+		}
+		
+		// search along -y
+		for (int j = _posY - 1; j >= 0; j--) {
+			if(cells[_posX][j].side == 0 )
+			{
+				Debug.Log("-y is null");
+				break;
+			}
+			
+			if(cells[_posX][j].side != 0 && cells[_posX][_posY].side == cells[_posX][j].side)
+			{
+				if(_posY - j > 1)
+				{
+					for(int i = j+1; i<_posY; i++)
+					{
+						nodesToFlip.Add(cells[_posX][i]);
+					}
+					break;
+					
+				}else{
+					break;
+				}
+				
+			}
+			
+		}
+
+
+		// -- 3. search diagnally
+		// searching along +x, +y
+		int offset = _posY - _posX;
+		for (int i = _posX + 1; i < nWidth && i+offset < nHeight; i++) {
+			if(cells[i][i+offset].side == 0)
+			{
+				Debug.Log("+x +y is null");
+				break;
+			}
+			
+			if(cells[i][i+offset].side != 0 && cells[_posX][_posY].side == cells[i][i+offset].side)
+			{
+				if(i-_posX > 1)
+				{
+					for(int j = i-1; j>_posX; j--)
+					{
+						nodesToFlip.Add(cells[j][j+offset]);
+					}
+					break;
+					
+				}else{
+					break;
+				}
+				
+				
+			}
+			
+		}
+		
+		// searching along -x, -y
+		for (int i = _posX - 1; i >= 0 && i+offset >= 0; i--) {
+			if(cells[i][i+offset].side == 0)
+			{
+				Debug.Log("-x -y is null");
+				break;
+			}
+			
+			if(cells[i][i+offset].side != 0 && cells[_posX][_posY].side == cells[i][i+offset].side)
+			{
+				if(_posX-i > 1)
+				{
+					for(int j = i+1; j<_posX; j++)
+					{
+						nodesToFlip.Add(cells[j][j+offset]);
+					}
+					break;
+					
+				}else{
+					break;
+				}
+				
+				
+			}
+			
+		}
+		
+		offset = _posX + _posY;
+		// searching along +x, -y
+		for (int i = _posX + 1; i < nWidth && offset-i >= 0; i++) {
+			if(cells[i][offset-i].side == 0)
+			{
+				Debug.Log("+x -y is null");
+				break;
+			}
+			
+			if(cells[i][offset-i].side != 0 && cells[_posX][_posY].side == cells[i][offset-i].side)
+			{
+				if(i-_posX > 1)
+				{
+					for(int j = i-1; j>_posX; j--)
+					{
+						nodesToFlip.Add(cells[j][offset-j]);
+					}
+					break;
+					
+				}else{
+					break;
+				}
+				
+				
+			}
+			
+		}
+		
+		// searching along -x, +y
+		for (int i = _posX - 1; i >= 0 && offset - i < nHeight; i--) {
+			if(cells[i][offset-i].side == 0)
+			{
+				Debug.Log("-x +y is null");
+				break;
+			}
+			
+			if(cells[i][offset-i].side != 0 && cells[_posX][_posY].side == cells[i][offset-i].side)
+			{
+				if(_posX-i > 1)
+				{
+					for(int j = i+1; j<_posX; j++)
+					{
+						nodesToFlip.Add(cells[j][offset-j]);
+					}
+					break;
+					
+				}else{
+					break;
+				}
+				
+				
+			}
+			
+		}
+	
+		
+		flipItems ();
 
 
 	}
+
 
 	// refresh cell information when the items are flipped 
 	void refreshCells(){
-		
+		nodesToFlip.Clear ();
+		for (int i = 0; i<nWidth; i++) {
+			for (int j = 0; j<nHeight; j++)
+			{
+				if(cells[i][j].node != null && cells[i][j].item != null)
+				{
+					if(cells[i][j].item.GetComponent<StoryItem>().isAlien)
+					{
+						alienCount += 1;
+						cells[i][j].side = 2;
+
+					}else{
+						humanCount += 1;
+						cells[i][j].side = 1;
+					}
+				}
+			}
+		} // end of for
+		totalCount = alienCount + humanCount;
 	}
 
 	void flipItems (){
+		foreach (NodeCell nc in nodesToFlip) {
+			nc.item.GetComponent<StoryItem>().isAlien = !nc.item.GetComponent<StoryItem>().isAlien;
+			nc.item.GetComponent<StoryItem>().rotateAnimation();
+
+
+		}
+		refreshCells ();
 
 	}
 
@@ -132,6 +396,6 @@ public class Network : MonoBehaviour {
 
 		// 1. check the network for unfolding the board 
 		checkForActivation ();
-	
+
 	}
 }

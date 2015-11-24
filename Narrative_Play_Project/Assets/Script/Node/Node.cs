@@ -76,6 +76,13 @@ public class Node : MonoBehaviour {
 		isFilled = true;
 	}
 
+	// when place an item on the node, register the item to the network 
+	public void addItem(GameObject _itm){
+		net.GetComponent<Network> ().addItemToCell (nodeIdx.x, nodeIdx.y, _itm);
+
+		
+	}
+
 	void OnMouseDown(){
 		//activateMore ();
 
