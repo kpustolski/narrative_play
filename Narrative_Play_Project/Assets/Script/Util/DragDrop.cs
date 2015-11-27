@@ -49,14 +49,14 @@ public class DragDrop : MonoBehaviour {
 			if (!isTargetFound) {
 				target = original;
 
-//			target.x = oriPos.x;
-//			target.y = oriPos.y;
-//			target.z = oriPos.z;
 			} else {
+				//unfold other nodes 
 				node.activateMore ();
+				node.isFilled = true;
+				//add the current item to the network 
 				//node.addItem(gameObject);
 				net.GetComponent<Network> ().addItemToCell (node.nodeIdx.x, node.nodeIdx.y, gameObject);
-				node.isFilled = true;
+				//search for the othello flipping 
 				net.GetComponent<Network> ().searchForReverse (node);
 				isSettled = true;
 

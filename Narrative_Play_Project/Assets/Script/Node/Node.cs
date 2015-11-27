@@ -4,10 +4,6 @@ using System.Collections.Generic;
 
 
 public class Node : MonoBehaviour {
-
-	// Each Node 
-	// Collider: detection the drag and drop function 
-
 	// boolean values 
 	public bool isFilled; // whether the node is filled
 	public bool isAlien; // 
@@ -78,7 +74,7 @@ public class Node : MonoBehaviour {
 
 	// when place an item on the node, register the item to the network 
 	public void addItem(GameObject _itm){
-		net.GetComponent<Network> ().addItemToCell (nodeIdx.x, nodeIdx.y, _itm);
+		//net.GetComponent<Network> ().addItemToCell (nodeIdx.x, nodeIdx.y, _itm);
 
 		
 	}

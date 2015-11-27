@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 
+
 public class NodeCell{
 	// a cell in the board contains information about a certain story cube and the position of it 
 	public int cellCubeId; // the cell of the cube 
@@ -57,6 +58,22 @@ public class Network : MonoBehaviour {
 	private List<NodeCell> nodesToFlip;  // node to be flipped 
 	public NodeCell [][] cells;    // cell information 
 
+	[SerializeField] int ACT_FST = 5;
+	[SerializeField] int ACT_SND = 10;
+	[SerializeField] int ACT_TIR = 14;
+
+	[SerializeField] GameObject bckFst;
+	[SerializeField] GameObject bckSnd;
+	[SerializeField] GameObject bckTrd;
+	[SerializeField] bool isEnterFst = false;
+	[SerializeField] bool isEnterSnd = false;
+	[SerializeField] bool isEnterTrd = false;
+
+
+	private GameObject [] stage1;
+	private GameObject [] stage2;
+	private GameObject [] stage3;
+	
 	// Use this for initialization
 	void Start () {
 		// initialize the network 
@@ -80,6 +97,12 @@ public class Network : MonoBehaviour {
 				}
 			}
 		} 
+
+		// initialize the Environment 
+		initItems ();
+		enterAct (1);
+
+
 	}
 	
 
@@ -115,8 +138,10 @@ public class Network : MonoBehaviour {
 	public void addItemToCell(int i,int j, GameObject _itm){
 		cells[i][j].item = _itm;
 		if (_itm.GetComponent<StoryItem> ().isAlien) {
+			Debug.Log("ADD Alien");
 			cells [i] [j].side = 2;
 		} else {
+			Debug.Log("ADD Human");
 			cells [i] [j].side = 1;
 		}
 	}
@@ -133,13 +158,13 @@ public class Network : MonoBehaviour {
 		// -- 1. search horizontally
 		// searching along +x
 		for (int i = _posX + 1; i < nWidth; i++) {
-			if(cells[i][_posY].item == null)
+			if(cells[i][_posY].side == 0)
 			{
-				Debug.Log("+x is null");
+				//Debug.Log("+x is null");
 				break;
 			}
 			
-			if(cells[i][_posY].item != null && cells[_posX][_posY].side == cells[i][_posY].side)
+			if(cells[i][_posY].side != 0 && cells[_posX][_posY].side == cells[i][_posY].side)
 			{
 				if(i-_posX > 1)
 				{
@@ -162,7 +187,7 @@ public class Network : MonoBehaviour {
 		for (int i = _posX - 1; i >=0; i--) {
 			if(cells[i][_posY].side == 0)
 			{
-				Debug.Log("-x is null");
+				//Debug.Log("-x is null");
 				break;
 			}
 			
@@ -189,7 +214,7 @@ public class Network : MonoBehaviour {
 		for (int j = _posY + 1; j < nHeight; j++) {
 			if(cells[_posX][j].side == 0)
 			{
-				Debug.Log("+y is null");
+				//Debug.Log("+y is null");
 				break;
 			}
 			
@@ -215,7 +240,7 @@ public class Network : MonoBehaviour {
 		for (int j = _posY - 1; j >= 0; j--) {
 			if(cells[_posX][j].side == 0 )
 			{
-				Debug.Log("-y is null");
+				//Debug.Log("-y is null");
 				break;
 			}
 			
@@ -244,7 +269,7 @@ public class Network : MonoBehaviour {
 		for (int i = _posX + 1; i < nWidth && i+offset < nHeight; i++) {
 			if(cells[i][i+offset].side == 0)
 			{
-				Debug.Log("+x +y is null");
+				//Debug.Log("+x +y is null");
 				break;
 			}
 			
@@ -271,7 +296,7 @@ public class Network : MonoBehaviour {
 		for (int i = _posX - 1; i >= 0 && i+offset >= 0; i--) {
 			if(cells[i][i+offset].side == 0)
 			{
-				Debug.Log("-x -y is null");
+				//Debug.Log("-x -y is null");
 				break;
 			}
 			
@@ -299,7 +324,7 @@ public class Network : MonoBehaviour {
 		for (int i = _posX + 1; i < nWidth && offset-i >= 0; i++) {
 			if(cells[i][offset-i].side == 0)
 			{
-				Debug.Log("+x -y is null");
+				//Debug.Log("+x -y is null");
 				break;
 			}
 			
@@ -326,7 +351,7 @@ public class Network : MonoBehaviour {
 		for (int i = _posX - 1; i >= 0 && offset - i < nHeight; i--) {
 			if(cells[i][offset-i].side == 0)
 			{
-				Debug.Log("-x +y is null");
+				//Debug.Log("-x +y is null");
 				break;
 			}
 			
@@ -359,6 +384,8 @@ public class Network : MonoBehaviour {
 	// refresh cell information when the items are flipped 
 	void refreshCells(){
 		nodesToFlip.Clear ();
+		alienCount = 0;
+		humanCount = 0;
 		for (int i = 0; i<nWidth; i++) {
 			for (int j = 0; j<nHeight; j++)
 			{
@@ -377,16 +404,107 @@ public class Network : MonoBehaviour {
 			}
 		} // end of for
 		totalCount = alienCount + humanCount;
+		Debug.Log ("Red : " + humanCount + " Green: " + alienCount);
 	}
 
 	void flipItems (){
 		foreach (NodeCell nc in nodesToFlip) {
-			nc.item.GetComponent<StoryItem>().isAlien = !nc.item.GetComponent<StoryItem>().isAlien;
-			nc.item.GetComponent<StoryItem>().rotateAnimation();
+			//nc.item.GetComponent<StoryItem>().isAlien = !nc.item.GetComponent<StoryItem>().isAlien;
+			nc.item.GetComponent<StoryItem>().flipAnimation();
+		}
+		// need to refresh cell after all the itween animation are done 
+		refreshCells ();
+		checkForAct ();
+	}
 
+	// check head position according to the difference of alien human obj
+	void checkHeadPosition(int _diff)
+	{
+		
+	}
+
+	// check for the progression of acts 
+	void checkForAct(){
+		if (totalCount == ACT_FST && !isEnterFst) {
+			Debug.Log("Enter Second Act");
+			enterAct(2);
+			isEnterFst = true;
+						
+		}
+
+		if (totalCount == ACT_SND && !isEnterSnd) {
+			Debug.Log("Enter Third Act");
+			enterAct(3);
+			isEnterSnd = true;	
+		}
+
+		if (totalCount == ACT_TIR && !isEnterTrd) {
+			Debug.Log("Enter Endding");
+			isEnterTrd = true;
+			
+		}
+	}
+
+	// enter act with the act index 
+	// TODO: for each act 
+	// 1) changing back ground : Fade in and out effects 
+	// 2) init objects position 
+	void enterAct(int _actIdx){
+		if (_actIdx == 1) {
+			clearBackgroud();
+			bckFst.GetComponent<FadeMaterial> ().FadeIn();
+			foreach (GameObject itm in stage1) {
+				itm.GetComponent<FadeMaterial>().FadeIn();
+			}
+		}
+
+		if (_actIdx == 2) {
+			//clearBackgroud();
+			bckFst.GetComponent<FadeMaterial>().FadeOut();
+			bckSnd.GetComponent<FadeMaterial>().FadeIn();
+			foreach (GameObject itm in stage2) {
+				itm.GetComponent<FadeMaterial>().FadeIn();
+			}
 
 		}
-		refreshCells ();
+
+		if (_actIdx == 3) {
+			//clearBackgroud();
+			bckSnd.GetComponent<FadeMaterial>().FadeOut();
+			bckTrd.GetComponent<FadeMaterial>().FadeIn();
+			foreach (GameObject itm in stage3) {
+				itm.GetComponent<FadeMaterial>().FadeIn();
+			}
+		}
+	}
+
+	// Initialize Item positions according to act index
+	void initItems(){
+		stage1 = GameObject.FindGameObjectsWithTag ("Act1");
+		stage2 = GameObject.FindGameObjectsWithTag ("Act2");
+		stage3 = GameObject.FindGameObjectsWithTag ("Act3");
+		foreach (GameObject itm in stage1) {
+			itm.GetComponent<FadeMaterial>().setAlpha(0.0f);
+		}
+		foreach (GameObject itm in stage2) {
+			itm.GetComponent<FadeMaterial>().setAlpha(0.0f);
+		}
+		foreach (GameObject itm in stage3) {
+			itm.GetComponent<FadeMaterial>().setAlpha(0.0f);
+		}
+	}
+
+	// show ending 
+
+	// set background to black 
+	void clearBackgroud(){
+//		bckFst.SetActive(false);
+//		bckSnd.SetActive(false);
+//		bckTrd.SetActive(false);
+		bckFst.GetComponent<FadeMaterial> ().setAlpha (0.0f);
+		bckSnd.GetComponent<FadeMaterial> ().setAlpha (0.0f);
+		bckTrd.GetComponent<FadeMaterial> ().setAlpha (0.0f);
+
 
 	}
 
