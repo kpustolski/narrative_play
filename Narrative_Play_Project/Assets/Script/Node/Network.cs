@@ -73,6 +73,9 @@ public class Network : MonoBehaviour {
 	private GameObject [] stage1;
 	private GameObject [] stage2;
 	private GameObject [] stage3;
+
+	private Vector3 [] nodePositions;
+	private Vector3 randomOffset;
 	
 	// Use this for initialization
 	void Start () {
@@ -85,6 +88,7 @@ public class Network : MonoBehaviour {
 			cells[i] = new NodeCell[nHeight];
 		}
 
+		// init the nodes 
 		Index middle = new Index((int)(Mathf.Floor (nWidth / 2)), (int)Mathf.Floor (nHeight / 2));
 		for (int i = 0; i<nWidth; i++) {
 			for (int j = 0; j<nHeight; j++)
@@ -97,6 +101,7 @@ public class Network : MonoBehaviour {
 				}
 			}
 		} 
+		checkForActivation ();
 
 		// initialize the Environment 
 		initItems ();
@@ -104,7 +109,11 @@ public class Network : MonoBehaviour {
 
 
 	}
-	
+
+	// generate random offset for node position 
+//	Vector3 genRandom(){
+//		
+//	}
 
 	// generate a new node
 	// called when new node position are allowed on the board 
@@ -505,7 +514,6 @@ public class Network : MonoBehaviour {
 		bckSnd.GetComponent<FadeMaterial> ().setAlpha (0.0f);
 		bckTrd.GetComponent<FadeMaterial> ().setAlpha (0.0f);
 
-
 	}
 
 	
@@ -513,7 +521,7 @@ public class Network : MonoBehaviour {
 	void Update () {
 
 		// 1. check the network for unfolding the board 
-		checkForActivation ();
+		// checkForActivation ();
 
 	}
 }

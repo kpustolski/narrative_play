@@ -56,6 +56,7 @@ public class DragDrop : MonoBehaviour {
 				//add the current item to the network 
 				//node.addItem(gameObject);
 				net.GetComponent<Network> ().addItemToCell (node.nodeIdx.x, node.nodeIdx.y, gameObject);
+				gameObject.transform.parent = node.transform;
 				//search for the othello flipping 
 				net.GetComponent<Network> ().searchForReverse (node);
 				isSettled = true;
