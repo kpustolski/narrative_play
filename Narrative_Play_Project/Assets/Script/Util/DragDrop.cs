@@ -57,6 +57,8 @@ public class DragDrop : MonoBehaviour {
 				//node.addItem(gameObject);
 				net.GetComponent<Network> ().addItemToCell (node.nodeIdx.x, node.nodeIdx.y, gameObject);
 				gameObject.transform.parent = node.transform;
+				// play the audio when the object is placed 
+				gameObject.GetComponent<StoryItem>().playAudio();
 				//search for the othello flipping 
 				net.GetComponent<Network> ().searchForReverse (node);
 				isSettled = true;

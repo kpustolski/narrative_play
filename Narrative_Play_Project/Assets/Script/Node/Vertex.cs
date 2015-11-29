@@ -17,11 +17,7 @@ public class Vertex : MonoBehaviour {
 	void Update () {
 		// update the vertex position 
 		refreshPosition ();
-
-	
 	}
-
-
 
 	public void getAnchors(GameObject _a, GameObject _b){
 		anchorA = _a;

@@ -76,6 +76,9 @@ public class Network : MonoBehaviour {
 
 	private Vector3 [] nodePositions;
 	private Vector3 randomOffset;
+
+	// bck music 
+	private GameObject bckMusic;
 	
 	// Use this for initialization
 	void Start () {
@@ -104,6 +107,7 @@ public class Network : MonoBehaviour {
 		checkForActivation ();
 
 		// initialize the Environment 
+		bckMusic = GameObject.Find("Sound");
 		initItems ();
 		enterAct (1);
 
@@ -146,6 +150,7 @@ public class Network : MonoBehaviour {
 	// add item to a specific cell 
 	public void addItemToCell(int i,int j, GameObject _itm){
 		cells[i][j].item = _itm;
+		_itm.GetComponent<StoryItem> ().isPlaced = true;
 		if (_itm.GetComponent<StoryItem> ().isAlien) {
 			Debug.Log("ADD Alien");
 			cells [i] [j].side = 2;
@@ -449,6 +454,7 @@ public class Network : MonoBehaviour {
 
 		if (totalCount == ACT_TIR && !isEnterTrd) {
 			Debug.Log("Enter Endding");
+			showEnd();
 			isEnterTrd = true;
 			
 		}
@@ -485,6 +491,8 @@ public class Network : MonoBehaviour {
 				itm.GetComponent<FadeMaterial>().FadeIn();
 			}
 		}
+
+		bckMusic.GetComponent<BackgroundMusic> ().playMusic (_actIdx);
 	}
 
 	// Initialize Item positions according to act index
@@ -504,6 +512,10 @@ public class Network : MonoBehaviour {
 	}
 
 	// show ending 
+	void showEnd(){
+		// TODO: show end by the difference of human and alien 
+		bckMusic.GetComponent<BackgroundMusic> ().playMusic (4);
+	}
 
 	// set background to black 
 	void clearBackgroud(){
