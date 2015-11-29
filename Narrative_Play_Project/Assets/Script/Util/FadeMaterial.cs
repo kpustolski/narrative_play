@@ -29,7 +29,7 @@ public class FadeMaterial : MonoBehaviour {
 	   }
 
 	public void setAlpha(float newAlpha) {
-		//Debug.Log ("alpha callled");
+		Debug.Log ("alpha callled");
 		Material [] mat = gameObject.GetComponent<Renderer>().materials;
 		foreach (Material mObj in mat) {
 			mObj.color = new Color(mObj.color.r, mObj.color.g, mObj.color.b, newAlpha);

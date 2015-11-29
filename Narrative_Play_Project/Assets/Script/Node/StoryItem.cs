@@ -2,6 +2,8 @@
 using System.Collections;
 
 public class StoryItem : MonoBehaviour {
+	public Vector3 axis = new Vector3(1f, 0, 0);
+	private Vector3 amount = new Vector3 (180f, 180f, 180f);
 	public bool isAlien;
 	public AudioClip clickAudio;
 	public AudioClip humanAudio;
@@ -20,6 +22,8 @@ public class StoryItem : MonoBehaviour {
 		AS.loop = false;
 		AS.playOnAwake = false;
 		AS.volume = 1;
+		amount = axis * 180.0f;
+
 	
 	}
 	
@@ -32,7 +36,7 @@ public class StoryItem : MonoBehaviour {
 	public void rotateAnimation(){
 		//isAlien = !isAlien;
 		//iTween.RotateAdd (gameObject, new Vector3(180.0f, 0, 0), 0.0f);
-		iTween.RotateAdd (gameObject, iTween.Hash("amount", new Vector3(180.0f, 0, 0), "time", 1.0f, "oncomplete", "flipBoolean", "onstart", "playClickAudio"));
+		iTween.RotateAdd (gameObject, iTween.Hash("amount", amount, "time", 1.0f, "oncomplete", "flipBoolean", "onstart", "playClickAudio"));
 //		Debug.Log("After Itween");
 
 
@@ -41,7 +45,7 @@ public class StoryItem : MonoBehaviour {
 
 	public void flipAnimation(){
 		isAlien = !isAlien;
-		iTween.RotateAdd (gameObject, new Vector3(180.0f, 0, 0), 1.0f);
+		iTween.RotateAdd (gameObject, amount, 1.0f);
 
 	}
 
