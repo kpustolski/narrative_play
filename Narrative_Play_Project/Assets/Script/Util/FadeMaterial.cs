@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class FadeMaterial : MonoBehaviour {
-	[SerializeField] float fadeTime = 3f;
+	public float fadeTime = 3f;
 
 	// Use this for initialization
 	void Start () {

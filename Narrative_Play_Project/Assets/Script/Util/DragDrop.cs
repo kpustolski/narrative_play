@@ -15,7 +15,7 @@ public class DragDrop : MonoBehaviour {
 	void Start(){
 		isTargetFound = false;
 		isSettled = false;
-		original = gameObject.transform.localPosition;
+		original = gameObject.transform.position;
 		net = GameObject.FindGameObjectWithTag("network");
 		//oriPos = new Vector3 (original.x, original.y, original.z);
 	}
@@ -45,6 +45,7 @@ public class DragDrop : MonoBehaviour {
 	// when release the mouse, check for collision 
 	void OnMouseUp()
 	{
+		 
 		if (!isSettled) {
 			if (!isTargetFound) {
 				target = original;
@@ -58,7 +59,11 @@ public class DragDrop : MonoBehaviour {
 				net.GetComponent<Network> ().addItemToCell (node.nodeIdx.x, node.nodeIdx.y, gameObject);
 				gameObject.transform.parent = node.transform;
 				// play the audio when the object is placed 
-				gameObject.GetComponent<StoryItem>().playAudio();
+				gameObject.GetComponent<StoryItem> ().playAudio ();
+				// play weather sound 
+				if(gameObject.GetComponent<Weather>()){
+					gameObject.GetComponent<Weather>().changeWeather();
+				}
 				//search for the othello flipping 
 				net.GetComponent<Network> ().searchForReverse (node);
 				isSettled = true;
@@ -69,6 +74,10 @@ public class DragDrop : MonoBehaviour {
 			// move the object to the target position 
 			iTween.MoveTo (gameObject, target, 1.0f);
 			net.GetComponent<Network> ().searchForReverse (node);
+		} else {
+			// if the item is settled
+			gameObject.GetComponent<StoryItem>().playAudio();
+			
 		}
 
 	}

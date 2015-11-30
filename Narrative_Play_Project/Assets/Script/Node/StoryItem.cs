@@ -10,6 +10,8 @@ public class StoryItem : MonoBehaviour {
 	public AudioClip alienAudio;
 	private AudioSource AS;
 	public bool isPlaced;
+	public float originalAngle;
+	private bool isback = true;
 
 
 
@@ -22,14 +24,27 @@ public class StoryItem : MonoBehaviour {
 		AS.loop = false;
 		AS.playOnAwake = false;
 		AS.volume = 1;
+		//AS.isPlaying = false;
 		amount = axis * 180.0f;
+		originalAngle = transform.rotation.eulerAngles.z;
 
 	
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+		if (AS.clip != clickAudio && AS.isPlaying) {
+			isback = false;
+			clickAnimation();
+		}
+		if (AS.clip != clickAudio && AS.clip != null && !AS.isPlaying && !isback) {
+			iTween.RotateAdd (gameObject,new Vector3(0,0,originalAngle-transform.localRotation.eulerAngles.z), 1.0f);
+			isback = true;
+		}
+
+
+
+
 	}
 
 
@@ -39,8 +54,6 @@ public class StoryItem : MonoBehaviour {
 		iTween.RotateAdd (gameObject, iTween.Hash("amount", amount, "time", 1.0f, "oncomplete", "flipBoolean", "onstart", "playClickAudio"));
 //		Debug.Log("After Itween");
 
-
-
 	}
 
 	public void flipAnimation(){
@@ -48,6 +61,16 @@ public class StoryItem : MonoBehaviour {
 		iTween.RotateAdd (gameObject, amount, 1.0f);
 
 	}
+
+	public void clickAnimation(){
+		//Debug.Log("WHY!!!" + AS.clip.length);
+		float speed = 1080.0f / (AS.clip.length * 60);
+		gameObject.transform.Rotate (new Vector3 (0,0,1f), speed);
+		//iTween.RotateAdd (gameObject, new Vector3(0,0,speed*Time.deltaTime), 0f);
+
+
+	}
+
 
 	void playClickAudio(){
 		AS.clip = clickAudio;
@@ -61,7 +84,10 @@ public class StoryItem : MonoBehaviour {
 		} else {
 			AS.clip = humanAudio;
 		}
-		AS.Play ();
+		if (!AS.isPlaying) {
+			AS.Play ();
+		}
+
 	}
 
 
@@ -73,8 +99,8 @@ public class StoryItem : MonoBehaviour {
 
 	// need to get the color and boolean value consistent in flipping 
 	void OnMouseOver(){
-		if (Input.GetMouseButtonDown (1) && !isPlaced) {
-			Debug.Log("Click and Rotate");
+		if (Input.GetAxis("Mouse ScrollWheel")!=0 && !isPlaced) {
+			Debug.Log("Scroll and Rotate");
 			//isAlien = !isAlien;
 			rotateAnimation();
 			//playAudio ();

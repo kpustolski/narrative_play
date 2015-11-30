@@ -497,12 +497,12 @@ public class Network : MonoBehaviour {
 			isEnterSnd = true;	
 		}
 
-		if (totalCount == ACT_TIR && !isEnterTrd) {
-			Debug.Log("Enter Endding");
-			showEnd();
-			isEnterTrd = true;
-			
-		}
+//		if (totalCount == ACT_TIR && !isEnterTrd) {
+//			Debug.Log("Enter Endding");
+//			//showEnd();
+//			isEnterTrd = true;
+//			
+//		}
 	}
 
 	// enter act with the act index 
@@ -560,6 +560,8 @@ public class Network : MonoBehaviour {
 	void showEnd(){
 		// TODO: show end by the difference of human and alien 
 		bckMusic.GetComponent<BackgroundMusic> ().playMusic (4);
+		heads [headIdx].GetComponent<FadeMaterial> ().fadeTime = 15.0f;
+		heads [headIdx].GetComponent<FadeMaterial> ().FadeOut ();
 	}
 
 	// set background to black 
@@ -579,6 +581,38 @@ public class Network : MonoBehaviour {
 
 		// 1. check the network for unfolding the board 
 		// checkForActivation ();
+
+		// enter the end 
+		if (totalCount == ACT_TIR && Input.GetKeyUp(KeyCode.Space) && !isEnterTrd){
+			Debug.Log("Enter Ending");
+			for (int i = 0; i<nWidth; i++) {
+				for (int j = 0; j<nHeight; j++)
+				{
+					if(cells[i][j].item != null)
+					{
+						cells[i][j].item.GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(-50.0F, 50.0F),Random.Range(-50.0F, 50.0F), 0));
+					}
+
+				}
+            }
+
+			GameObject[] nodes = GameObject.FindGameObjectsWithTag("node");
+			GameObject[] vertice = GameObject.FindGameObjectsWithTag("vertex");
+			foreach (GameObject n in nodes){
+				n.AddComponent<Rigidbody>();
+				n.GetComponent<Rigidbody>().useGravity = false;
+				n.GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(-30.0F, 30.0F),Random.Range(-30.0F, -10.0F), 0));
+
+			}
+			foreach (GameObject v in vertice){
+				v.AddComponent<Rigidbody>();
+				v.GetComponent<Rigidbody>().useGravity = false;
+				v.GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(-30.0F, 30.0F),Random.Range(-30.0F, -10.0F), 0));
+				
+			}
+			showEnd();
+			isEnterTrd = true;
+		}
 
 	}
 }
