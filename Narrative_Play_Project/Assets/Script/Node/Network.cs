@@ -79,6 +79,12 @@ public class Network : MonoBehaviour {
 
 	// bck music 
 	private GameObject bckMusic;
+
+	// human-alien head turning 
+	//private int crtHead; // the current head position 
+	private int nxtHead; // the head position to turn 
+	private GameObject [] heads;
+	private int headIdx;
 	
 	// Use this for initialization
 	void Start () {
@@ -110,8 +116,23 @@ public class Network : MonoBehaviour {
 		bckMusic = GameObject.Find("Sound");
 		initItems ();
 		enterAct (1);
+		initHeads ();
 
 
+	}
+
+	void initHeads(){
+		heads = new GameObject[5];
+		heads[0] = GameObject.Find("humanTurn2");
+		heads[1] = GameObject.Find("humanTurn1");
+		heads[2] = GameObject.Find("balance");
+		heads[3] = GameObject.Find("alienTurn1");
+		heads[4] = GameObject.Find("alienTurn2");
+		for (int i=0; i<5; i++) {
+			heads[i].GetComponent<FadeMaterial>().setAlpha(0);
+		}
+		headIdx = 2;
+		heads [headIdx].GetComponent<FadeMaterial> ().FadeIn ();
 	}
 
 	// generate random offset for node position 
@@ -419,6 +440,8 @@ public class Network : MonoBehaviour {
 		} // end of for
 		totalCount = alienCount + humanCount;
 		Debug.Log ("Red : " + humanCount + " Green: " + alienCount);
+		// turn the head 
+		checkHeadPosition (- humanCount + alienCount);
 	}
 
 	void flipItems (){
@@ -434,8 +457,30 @@ public class Network : MonoBehaviour {
 	// check head position according to the difference of alien human obj
 	void checkHeadPosition(int _diff)
 	{
-		
+		if (_diff >= -14 && _diff < -7) {
+			nxtHead = 0;
+		}
+		if (_diff >= -7 && _diff < -2) {
+			nxtHead = 1;
+		}
+		if (_diff >= -2 && _diff < 3) {
+			nxtHead = 2;
+		}
+		if (_diff >= 3 && _diff < 8) {
+			nxtHead = 3;
+		}
+		if (_diff >= 8 && _diff < 14) {
+			nxtHead = 4;
+		}
+
+		if (headIdx != nxtHead) {
+			heads[headIdx].GetComponent<FadeMaterial>().FadeOut();
+			heads[nxtHead].GetComponent<FadeMaterial>().FadeIn();
+			headIdx = nxtHead;
+		}
 	}
+
+
 
 	// check for the progression of acts 
 	void checkForAct(){
