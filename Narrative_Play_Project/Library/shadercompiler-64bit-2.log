@@ -29,3 +29,6 @@ Cmd: compileSnippet
   api=0 type=0 insize=3790 outsize=2243 kw=POINT_COOKIE pd= ok=1
 Cmd: compileSnippet
   api=0 type=1 insize=3790 outsize=6 kw=POINT_COOKIE pd= ok=1
+End of pipe
+
+Quitting shader compiler process
