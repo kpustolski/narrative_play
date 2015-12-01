@@ -8,9 +8,10 @@ public class DragDrop : MonoBehaviour {
 	private Vector3 original;
 	private Vector3 target;
 	private bool isTargetFound;
-	private bool isSettled;
+	public bool isSettled;
 	private Node node;
 	private GameObject net;
+	private bool isClickPlay=false;
 
 	void Start(){
 		isTargetFound = false;
@@ -76,8 +77,14 @@ public class DragDrop : MonoBehaviour {
 			net.GetComponent<Network> ().searchForReverse (node);
 		} else {
 			// if the item is settled
-			gameObject.GetComponent<StoryItem>().playAudio();
-			
+			isClickPlay = !isClickPlay;
+			if(isClickPlay)
+			{
+				gameObject.GetComponent<StoryItem>().playAudio();
+			}else{
+				gameObject.GetComponent<StoryItem>().stopAudio();
+			}
+
 		}
 
 	}

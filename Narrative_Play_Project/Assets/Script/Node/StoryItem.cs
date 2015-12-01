@@ -90,6 +90,12 @@ public class StoryItem : MonoBehaviour {
 
 	}
 
+	public void stopAudio(){
+		if (AS.isPlaying) {
+			AS.Stop ();
+		}
+	}
+
 
 
 	void flipBoolean(){

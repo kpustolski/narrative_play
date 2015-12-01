@@ -85,6 +85,9 @@ public class Network : MonoBehaviour {
 	private int nxtHead; // the head position to turn 
 	private GameObject [] heads;
 	private int headIdx;
+	// for ending 
+	private int endIdx;
+	private GameObject[] ends;
 
 	// timing for the end 
 	private float timeStart;
@@ -123,6 +126,7 @@ public class Network : MonoBehaviour {
 		initItems ();
 		enterAct (1);
 		initHeads ();
+		initEnds ();
 
 
 	}
@@ -139,6 +143,22 @@ public class Network : MonoBehaviour {
 		}
 		headIdx = 2;
 		heads [headIdx].GetComponent<FadeMaterial> ().FadeIn ();
+	}
+
+	void initEnds(){
+		ends = new GameObject[7];
+		ends[0] = GameObject.Find("HE3");
+		ends[1] = GameObject.Find("HE2");
+		ends[2] = GameObject.Find("HE1");
+		ends[3] = GameObject.Find("HAEQUAL");
+		ends[4] = GameObject.Find("AE1");
+		ends[5] = GameObject.Find("AE2");
+		ends[6] = GameObject.Find("AE3");
+
+		for (int i=0; i<7; i++) {
+			ends[i].GetComponent<FadeMaterial>().setAlpha(0);
+		}
+		endIdx = -1;
 	}
 
 	// generate random offset for node position 
@@ -571,25 +591,35 @@ public class Network : MonoBehaviour {
 		int difference = alienCount - humanCount;
 		if (difference >= -14 && difference <= -11) {
 			Debug.Log("humanEnding3");
+			endIdx = 0;
 		}
 		if (difference >= -10 && difference <= -7) {
 			Debug.Log("humanEnding2");
+			endIdx = 1;
 		}
 		if (difference >= -6 && difference <= -3) {
 			Debug.Log("humanEnding1");
+			endIdx = 2;
 		}
 		if (difference >= -2 && difference <= 2) {
 			Debug.Log("humanAlienEnding");
+			endIdx = 3;
 		}
 		if (difference >= 3 && difference <= 6) {
 			Debug.Log("AlienEnding1");
+			endIdx = 4;
 		}
 		if (difference >= 7 && difference <= 10) {
 			Debug.Log("AlienEnding2");
+			endIdx = 5;
 		}
 		if (difference >= 11 && difference <= 14) {
 			Debug.Log("AlienEnding3");
+			endIdx = 6;
 		}
+		ends [endIdx].GetComponent<FadeMaterial> ().fadeTime = 15.0f;
+		ends [endIdx].GetComponent<FadeMaterial> ().FadeIn ();
+		ends [endIdx].GetComponent<AudioSource> ().Play ();
 
 	}
 
@@ -630,6 +660,9 @@ public class Network : MonoBehaviour {
 					if(cells[i][j].item != null)
 					{
 						cells[i][j].item.GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(-50.0F, 50.0F),Random.Range(-50.0F, 50.0F), 0));
+						cells[i][j].item.GetComponent<StoryItem>().isPlaced = false;
+						cells[i][j].item.GetComponent<DragDrop>().isSettled= false;
+						cells[i][j].item.GetComponent<AudioSource>().Stop();
 					}
 
 				}
