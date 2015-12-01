@@ -85,7 +85,13 @@ public class Network : MonoBehaviour {
 	private int nxtHead; // the head position to turn 
 	private GameObject [] heads;
 	private int headIdx;
-	
+
+	// timing for the end 
+	private float timeStart;
+	[SerializeField] float endWaitTime = 10.0f;
+	private bool isReadyToEnd = false;
+	private bool isEndTriggered = false;
+
 	// Use this for initialization
 	void Start () {
 		// initialize the network 
@@ -562,6 +568,29 @@ public class Network : MonoBehaviour {
 		bckMusic.GetComponent<BackgroundMusic> ().playMusic (4);
 		heads [headIdx].GetComponent<FadeMaterial> ().fadeTime = 15.0f;
 		heads [headIdx].GetComponent<FadeMaterial> ().FadeOut ();
+		int difference = alienCount - humanCount;
+		if (difference >= -14 && difference <= -11) {
+			Debug.Log("humanEnding3");
+		}
+		if (difference >= -10 && difference <= -7) {
+			Debug.Log("humanEnding2");
+		}
+		if (difference >= -6 && difference <= -3) {
+			Debug.Log("humanEnding1");
+		}
+		if (difference >= -2 && difference <= 2) {
+			Debug.Log("humanAlienEnding");
+		}
+		if (difference >= 3 && difference <= 6) {
+			Debug.Log("AlienEnding1");
+		}
+		if (difference >= 7 && difference <= 10) {
+			Debug.Log("AlienEnding2");
+		}
+		if (difference >= 11 && difference <= 14) {
+			Debug.Log("AlienEnding3");
+		}
+
 	}
 
 	// set background to black 
@@ -581,9 +610,19 @@ public class Network : MonoBehaviour {
 
 		// 1. check the network for unfolding the board 
 		// checkForActivation ();
+		if (!isEndTriggered && totalCount == 14) {
+			timeStart = Time.time;
+			isEndTriggered = true;
+		} else {
+			//timeStart = Time.time;
+		}
+
+		if (!isReadyToEnd && isEndTriggered && Time.time - timeStart >= endWaitTime) {
+			isReadyToEnd = true;
+		}
 
 		// enter the end 
-		if (totalCount == ACT_TIR && Input.GetKeyUp(KeyCode.Space) && !isEnterTrd){
+		if (isReadyToEnd && !isEnterTrd ){
 			Debug.Log("Enter Ending");
 			for (int i = 0; i<nWidth; i++) {
 				for (int j = 0; j<nHeight; j++)
@@ -613,6 +652,11 @@ public class Network : MonoBehaviour {
 			showEnd();
 			isEnterTrd = true;
 		}
+
+		// if enter the ending condition :
+		// 1. check for audio playing 
+		// 2. wait for some time to reveal the ending 
+
 
 	}
 }
