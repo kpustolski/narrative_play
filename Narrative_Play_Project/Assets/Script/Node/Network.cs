@@ -640,13 +640,13 @@ public class Network : MonoBehaviour {
 			foreach (GameObject n in nodes){
 				n.AddComponent<Rigidbody>();
 				n.GetComponent<Rigidbody>().useGravity = false;
-				n.GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(-30.0F, 30.0F),Random.Range(-30.0F, -10.0F), 0));
+				n.GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(-30.0F, 30.0F)*2.0f,Random.Range(-30.0F, -10.0F)*2.0f, 0));
 
 			}
 			foreach (GameObject v in vertice){
 				v.AddComponent<Rigidbody>();
 				v.GetComponent<Rigidbody>().useGravity = false;
-				v.GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(-30.0F, 30.0F),Random.Range(-30.0F, -10.0F), 0));
+				v.GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(-30.0F, 30.0F)*2.0f,Random.Range(-30.0F, -10.0F)*2.0f, 0));
 				
 			}
 			showEnd();

@@ -30,6 +30,7 @@ public class Vertex : MonoBehaviour {
 		Vector3 position = new Vector3 ((posA.x + posB.x) / 2, (posA.y + posB.y) / 2, (posA.z + posB.z) / 2);
 		Quaternion rotation = new Quaternion();
 		rotation.eulerAngles = new Vector3(0, 0, Mathf.Atan2 (posA.y - posB.y, posA.x - posB.x));
+		//rotation.eulerAngles = new Vector3(0, 0, 20.0f);
 		gameObject.transform.position = position;
 		gameObject.transform.rotation = rotation;
 		if (isVertical) {
