@@ -10,9 +10,13 @@ function Update () {
 
 function StartGame () {
 
-    Application.LoadLevel("Game");
+    Application.LoadLevel(1);
 }
 
+function StartRules(){
+    Application.LoadLevel(2);
+
+}
 function ExitGame () {
     Application.Quit();
 }
