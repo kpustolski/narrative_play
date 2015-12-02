@@ -74,7 +74,7 @@ public class DragDrop : MonoBehaviour {
 
 			// move the object to the target position 
 			iTween.MoveTo (gameObject, target, 1.0f);
-			net.GetComponent<Network> ().searchForReverse (node);
+
 		} else {
 			// if the item is settled
 			isClickPlay = !isClickPlay;
@@ -93,17 +93,22 @@ public class DragDrop : MonoBehaviour {
 	void OnTriggerEnter(Collider other)
 	{
 		if (other != null && other.CompareTag("node") && !other.GetComponent<Node>().isFilled) {
-			isTargetFound = true;
-			target = other.transform.position;
-			target -= 1.0f * Vector3.forward;
-			node = other.GetComponent<Node>();
-
+			float distance = Mathf.Abs(gameObject.transform.position.z - other.transform.position.z);
+			if(distance <= 4)
+			{
+				isTargetFound = true;
+				target = other.transform.position;
+				target -= 1.0f * Vector3.forward;
+				node = other.GetComponent<Node>();
+			}else{
+				isTargetFound = false;
+			}
 		}
 	}
 
 	void OnTriggerExit(Collider other)
 	{
-		isTargetFound = false;
+		//isTargetFound = false;
 	}
 	
 }

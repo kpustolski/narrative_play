@@ -10,11 +10,11 @@ function Update () {
 
 function StartGame () {
 
-    Application.LoadLevel(1);
+    Application.LoadLevel(2);
 }
 
 function StartRules(){
-    Application.LoadLevel(2);
+    Application.LoadLevel(1);
 
 }
 function ExitGame () {
