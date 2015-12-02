@@ -60,6 +60,7 @@
      <Compile Include="Assets\Script\Util\BackgroundMusic.cs" />
      <Compile Include="Assets\Script\Util\DragDrop.cs" />
      <Compile Include="Assets\Script\Util\FadeMaterial.cs" />
+     <Compile Include="Assets\Script\Util\ShowText.cs" />
      <Compile Include="Assets\Script\Util\TweenLight.cs" />
      <Compile Include="Assets\Script\Util\Wander.cs" />
      <Compile Include="Assets\Script\Util\Weather.cs" />

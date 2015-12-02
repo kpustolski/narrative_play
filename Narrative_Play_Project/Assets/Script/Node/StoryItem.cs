@@ -51,6 +51,7 @@ public class StoryItem : MonoBehaviour {
 	public void rotateAnimation(){
 		//isAlien = !isAlien;
 		//iTween.RotateAdd (gameObject, new Vector3(180.0f, 0, 0), 0.0f);
+		originalAngle = transform.rotation.eulerAngles.z;
 		iTween.RotateAdd (gameObject, iTween.Hash("amount", amount, "time", 1.0f, "oncomplete", "flipBoolean", "onstart", "playClickAudio"));
 //		Debug.Log("After Itween");
 
@@ -74,7 +75,10 @@ public class StoryItem : MonoBehaviour {
 
 	void playClickAudio(){
 		AS.clip = clickAudio;
-		AS.Play ();
+		if (!AS.isPlaying) {
+			AS.Play ();
+		}
+
 	}
 
 	public void playAudio(){

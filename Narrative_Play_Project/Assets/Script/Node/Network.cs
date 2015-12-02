@@ -169,6 +169,10 @@ public class Network : MonoBehaviour {
 	// generate a new node
 	// called when new node position are allowed on the board 
 	public GameObject generateNode(int _id, Vector3 _position, int _i, int _j){
+		// random offset 
+		Vector3 random = Random.insideUnitSphere * 0.2f;
+		_position.x += random.x;
+		_position.y += random.y;
 		GameObject node = Instantiate(nodePrefab, _position, transform.rotation) as GameObject;
 		node.transform.parent = startPosition.parent;
 		node.GetComponent<Node>().isFilled = false;
@@ -540,6 +544,7 @@ public class Network : MonoBehaviour {
 			clearBackgroud();
 			bckFst.GetComponent<FadeMaterial> ().FadeIn();
 			foreach (GameObject itm in stage1) {
+				itm.SetActive(true);
 				itm.GetComponent<FadeMaterial>().FadeIn();
 			}
 		}
@@ -549,6 +554,7 @@ public class Network : MonoBehaviour {
 			bckFst.GetComponent<FadeMaterial>().FadeOut();
 			bckSnd.GetComponent<FadeMaterial>().FadeIn();
 			foreach (GameObject itm in stage2) {
+				itm.SetActive(true);
 				itm.GetComponent<FadeMaterial>().FadeIn();
 			}
 
@@ -559,6 +565,7 @@ public class Network : MonoBehaviour {
 			bckSnd.GetComponent<FadeMaterial>().FadeOut();
 			bckTrd.GetComponent<FadeMaterial>().FadeIn();
 			foreach (GameObject itm in stage3) {
+				itm.SetActive(true);
 				itm.GetComponent<FadeMaterial>().FadeIn();
 			}
 		}
@@ -573,12 +580,15 @@ public class Network : MonoBehaviour {
 		stage3 = GameObject.FindGameObjectsWithTag ("Act3");
 		foreach (GameObject itm in stage1) {
 			itm.GetComponent<FadeMaterial>().setAlpha(0.0f);
+			itm.SetActive(false);
 		}
 		foreach (GameObject itm in stage2) {
 			itm.GetComponent<FadeMaterial>().setAlpha(0.0f);
+			itm.SetActive(false);
 		}
 		foreach (GameObject itm in stage3) {
 			itm.GetComponent<FadeMaterial>().setAlpha(0.0f);
+			itm.SetActive(false);
 		}
 	}
 

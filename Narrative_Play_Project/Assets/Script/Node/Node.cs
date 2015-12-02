@@ -64,10 +64,6 @@ public class Node : MonoBehaviour {
 		}
 	}	
 
-	public void wanderNodeRandom(){
-		//TODO: using code or animation ??
-	}
-
 	// when clicked on the node, the node creates 4 adjacent new positions
 	public void activateMore(){
 		if (!isFilled) {
@@ -94,7 +90,7 @@ public class Node : MonoBehaviour {
 
 			}
 			
-			if(nodeIdx.x+1<5)
+			if(nodeIdx.x+1<width)
 			{
 				//net.GetComponent<Network>().cells[nodeIdx.x+1][nodeIdx.y].isActive = true;
 				if(!net.GetComponent<Network>().cells[nodeIdx.x+1][nodeIdx.y].isActive){
@@ -139,7 +135,7 @@ public class Node : MonoBehaviour {
 				}
 			}
 			
-			if(nodeIdx.y+1<5)
+			if(nodeIdx.y+1<height)
 			{
 				//net.GetComponent<Network>().cells[nodeIdx.x][nodeIdx.y+1].isActive = true;
 				if(!net.GetComponent<Network>().cells[nodeIdx.x][nodeIdx.y+1].isActive){

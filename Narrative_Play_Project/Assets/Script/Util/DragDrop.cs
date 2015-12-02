@@ -93,7 +93,7 @@ public class DragDrop : MonoBehaviour {
 	void OnTriggerEnter(Collider other)
 	{
 		if (other != null && other.CompareTag("node") && !other.GetComponent<Node>().isFilled) {
-			float distance = Mathf.Abs(gameObject.transform.position.z - other.transform.position.z);
+			float distance = Vector3.Distance(gameObject.transform.position, other.transform.position);
 			if(distance <= 4)
 			{
 				isTargetFound = true;
@@ -102,13 +102,25 @@ public class DragDrop : MonoBehaviour {
 				node = other.GetComponent<Node>();
 			}else{
 				isTargetFound = false;
+				target = original;
 			}
 		}
 	}
 
 	void OnTriggerExit(Collider other)
 	{
+		float distance = Vector3.Distance(gameObject.transform.position, other.transform.position);
 		//isTargetFound = false;
+		if(distance <= 1)
+		{
+			isTargetFound = true;
+			target = other.transform.position;
+			target -= 1.0f * Vector3.forward;
+			node = other.GetComponent<Node>();
+		}else{
+			isTargetFound = false;
+			target = original;
+		}
 	}
 	
 }
