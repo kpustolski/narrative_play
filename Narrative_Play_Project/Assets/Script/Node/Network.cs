@@ -95,6 +95,10 @@ public class Network : MonoBehaviour {
 	private bool isReadyToEnd = false;
 	private bool isEndTriggered = false;
 
+	// show text 
+	public GameObject showText;
+
+
 	// Use this for initialization
 	void Start () {
 		// initialize the network 
@@ -653,11 +657,20 @@ public class Network : MonoBehaviour {
 		if (!isEndTriggered && totalCount == 14) {
 			timeStart = Time.time;
 			isEndTriggered = true;
+			bckTrd.GetComponent<FadeMaterial> ().fadeTime = 15f;
+			bckTrd.GetComponent<FadeMaterial> ().FadeOut();
 		} else {
 			//timeStart = Time.time;
 		}
 
 		if (!isReadyToEnd && isEndTriggered && Time.time - timeStart >= endWaitTime) {
+			Debug.Log("Press Enter to see the end");
+			showText.SetActive(true);
+
+
+		}
+
+		if (!isReadyToEnd && Input.GetKeyDown(KeyCode.Return)){
 			isReadyToEnd = true;
 		}
 
@@ -669,7 +682,7 @@ public class Network : MonoBehaviour {
 				{
 					if(cells[i][j].item != null)
 					{
-						cells[i][j].item.GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(-50.0F, 50.0F),Random.Range(-50.0F, 50.0F), 0));
+						cells[i][j].item.GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(-30.0F, 30.0F)*2.0f,Random.Range(10.0F, 30.0F)*2.0f, 0));
 						cells[i][j].item.GetComponent<StoryItem>().isPlaced = false;
 						cells[i][j].item.GetComponent<DragDrop>().isSettled= false;
 						cells[i][j].item.GetComponent<AudioSource>().Stop();
@@ -694,12 +707,21 @@ public class Network : MonoBehaviour {
 			}
 			showEnd();
 			isEnterTrd = true;
+			showText.SetActive(false);
+
 		}
 
 		// if enter the ending condition :
 		// 1. check for audio playing 
 		// 2. wait for some time to reveal the ending 
 
+		if (isEnterTrd && !ends[endIdx].GetComponent<AudioSource> ().isPlaying){
+			GameObject [] endItems = GameObject.FindGameObjectsWithTag("end");
+			foreach (GameObject g in endItems){
+				g.GetComponent<ItemEnd>().isActive = true;
+			}
+		}
 
 	}
+	
 }
