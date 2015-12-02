@@ -17,6 +17,10 @@ function StartRules(){
     Application.LoadLevel(1);
 
 }
+
+function StartExercise(){
+	Application.LoadLevel(3);
+}
 function ExitGame () {
     Application.Quit();
 }

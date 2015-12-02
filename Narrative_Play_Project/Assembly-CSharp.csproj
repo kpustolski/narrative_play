@@ -45,6 +45,10 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\BackgroundMusicMenuExercise.cs" />
+     <Compile Include="Assets\ColliderControllerMenuExercise.cs" />
+     <Compile Include="Assets\DragDropMenuExercise.cs" />
+     <Compile Include="Assets\FadeMaterialMenuExercise.cs" />
      <Compile Include="Assets\Script\MainScene\CameraControl.cs" />
      <Compile Include="Assets\Script\MainScene\GameBoard.cs" />
      <Compile Include="Assets\Script\MainScene\SCube.cs" />
@@ -66,6 +70,8 @@
      <Compile Include="Assets\Script\Util\Wander.cs" />
      <Compile Include="Assets\Script\Util\Weather.cs" />
      <Compile Include="Assets\Script\Util\select.cs" />
+     <Compile Include="Assets\StoryItemMenuExercise.cs" />
+     <Compile Include="Assets\WanderMenuExercise.cs" />
      <Compile Include="Assets\colliderController.cs" />
      <None Include="Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendOneOne.shader" />
