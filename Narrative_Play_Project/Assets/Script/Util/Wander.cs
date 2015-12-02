@@ -16,10 +16,10 @@ public class Wander : MonoBehaviour {
 	void Update () {
 		//toNewPosition ();
 		if (Time.time - startWanderTime >= 0.0f && Time.time - startWanderTime <2.0f) {
-			iTween.MoveAdd (gameObject, randomDir*0.5f, 2.0f);
+			iTween.MoveAdd (gameObject, new Vector3(randomDir.x*0.5f,randomDir.y*0.5f, 0) , 2.0f);
 		}
 		if (Time.time - startWanderTime >= 3.0f && Time.time - startWanderTime <5.0f) {
-			iTween.MoveAdd (gameObject, -randomDir*0.5f, 2.0f);
+			iTween.MoveAdd (gameObject, new Vector3(-randomDir.x*0.5f,-randomDir.y*0.5f, 0), 2.0f);
 		}
 		if (Time.time - startWanderTime >= 5.0f) {
 			toNewPosition();
@@ -36,7 +36,7 @@ public class Wander : MonoBehaviour {
 		//Vector2 circle = Random.insideUnitSphere
 		randomDir = Random.insideUnitSphere;
 		startWanderTime = Time.time;
-		Vector3 rotation = new Vector3 (0, 0, Random.Range (-360f, 360f));
+		//Vector3 rotation = new Vector3 (0, 0, Random.Range (-360f, 360f));
 		//iTween.RotateAdd (gameObject, rotation, 3.0f);
 
 	}
